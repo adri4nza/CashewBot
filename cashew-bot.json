@@ -1,0 +1,139 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Rol: Eres una API de extracción de datos financieros. Tu único propósito es analizar el mensaje del usuario, extraer los datos de la transacción y devolver EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código Markdown (no uses ```json), no incluyas saludos ni explicaciones.\n\nREGLAS GENERALES DE MONTOS Y MONEDA:\n1. SIGNOS (INGRESOS VS GASTOS):\n- Si es GASTO (\"gasté\", \"compré\", \"pagué\"): El campo \"amount\" DEBE ser NEGATIVO (ej. -10).\n- Si es INGRESO (\"me pagaron\", \"cobré\", \"recibí\"): El campo \"amount\" DEBE ser POSITIVO (ej. 50).\n\n2. DETECCIÓN DE MONEDA (COP vs USD):\n- Asume Pesos Colombianos (COP) si el monto es mayor a 500 o si usa palabras como \"mil\", \"pesos\" o \"lucas\". \n- Asume Dólares (USD) si el monto es menor o igual a 500, o si usa palabras como \"dólares\", \"verdes\" o \"usd\".\n\nREGLAS DE CUENTAS Y CONVERSIÓN MATEMÁTICA (¡CRÍTICO!):\n1. CUENTAS DISPONIBLES: \"Binance\", \"Efectivo\", \"Bolívares\", \"Panamá\", \"Zinli\".\n- \"Efectivo\" es la ÚNICA cuenta que maneja Pesos Colombianos (COP).\n- Todas las demás cuentas manejan Dólares (USD). Binance es la cuenta principal por defecto.\n\n2. LÓGICA DE ASIGNACIÓN:\n- Si el usuario menciona una cuenta explícitamente (ej. \"por Zinli\", \"en Efectivo\"), incluye la clave \"account\" en el JSON con ese nombre exacto.\n- Si NO se especifica la cuenta en el texto, OMITE la clave \"account\" del JSON por completo.\n\n3. REGLA DE CONVERSIÓN COP A USD: \nSi la transacción implica Pesos Colombianos (COP) PERO el usuario NO menciona explícitamente la palabra \"Efectivo\", asumes que se pagó con la cuenta principal en dólares. En este caso, DEBES calcular el equivalente en dólares dividiendo el monto en pesos entre 3700. \nEjemplo: \"Gasté 6mil en gatorade\" -> Son 6000 pesos. No dice \"Efectivo\". Divides 6000 / 3700 = 1.62. Como es gasto, devuelves \"amount\": -1.62 y OMITES la clave \"account\".\n\nÁRBOL DE CATEGORÍAS Y SUBCATEGORÍAS PERMITIDAS:\nSolo puedes clasificar usando EXACTAMENTE estas opciones:\n* Comida calle: Desayuno, Almuerzo, Cena, Otros\n* Hormiga: Chuches, Cigarros, Bebida\n* Comestibles: Carne, Aseo, Vegetales, Víveres\n* Transporte: Moto, Uber, Otro\n* Servicios: Internet, Digitel, Suscripciones, Youtube, Otros\n* Ingreso: Salario, Freelance, Regalo, Otros\n\nFORMATO JSON DE SALIDA ESPERADO:\n{\n  \"amount\": <número decimal con su signo correspondiente>,\n  \"title\": \"<descripción breve, máximo 3 palabras>\",\n  \"category\": \"<Categoría principal exacta>\",\n  \"subcategory\": \"<Subcategoría exacta>\"\n  // Opcional: \"account\": \"<Solo si el usuario la especificó explícitamente>\"\n}\n\nMensaje del usuario:\n{{ $('Telegram Trigger').item.json.message.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        -32
+      ],
+      "id": "fe028eff-fb23-492a-8420-bf2c7b1b1a32",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PHFta0hVOFbvMZSq",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -224,
+        -32
+      ],
+      "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
+      "name": "Telegram Trigger",
+      "webhookId": "040e60ef-e56b-4357-8547-a0ba2e06bbe5",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Extraemos y parseamos los datos de Gemini\nconst rawText = $input.first().json.content.parts[0].text;\nconst data = JSON.parse(rawText);\n\n// Nota: Ya no forzamos el signo negativo aquí. \n// Gemini se encarga de enviar -25000 si es gasto o 50 si es ingreso.\n// Confiamos en el dato que viene en data.amount.\n\n// 2. Construimos los parámetros de la URL\nconst queryString = Object.keys(data)\n  .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)\n  .join('&');\n\n// 3. Armamos el App Link oficial de Cashew\nconst deepLink = `https://cashewapp.web.app/addTransaction?${queryString}`;\n\n// 4. Devolvemos los datos limpios al siguiente nodo\nreturn {\n  json: {\n    deepLink: deepLink,\n    transaccion: data \n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -32
+      ],
+      "id": "ed2983e5-a375-4286-9aed-4cfb7f63bbfa",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=✅ <b>Transacción Lista para Guardar</b>\n\n<b>Descripción:</b> {{ $json.transaccion.title }}\n<b>Monto:</b> {{ $json.transaccion.amount }} {{ $json.transaccion.currency }}\n<b>Categoría:</b> {{ $json.transaccion.category }} ➡️ {{ $json.transaccion.subcategory }}\n\n👉 <a href=\"{{ $json.deepLink }}\">TOCA AQUÍ PARA ABRIR CASHEW</a>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        -32
+      ],
+      "id": "d076a765-1d60-4ed5-8b73-f55d51bb647a",
+      "name": "Send a text message",
+      "webhookId": "d2c9898b-65c6-4ed6-b6f1-0493f0ff195d",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b275672e57a7da5706eb21a48d09cf89321781fd82c00ad00f65ff4579f2609"
+  }
+}
