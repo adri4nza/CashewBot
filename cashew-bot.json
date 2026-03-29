@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        112,
-        -336
+        -256,
+        -928
       ],
       "id": "3cafed43-b2aa-4f5d-9632-f14c86fa4745",
       "name": "Enviar mensaje de bienvenida",
@@ -53,8 +53,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -400,
-        -176
+        -704,
+        -752
       ],
       "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
       "name": "Buscar el usuario registrado",
@@ -94,8 +94,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -176,
-        -176
+        -480,
+        -752
       ],
       "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
       "name": "IF (Si el usuario existe o no existe)"
@@ -126,31 +126,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "Comando Start"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "loose",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c5911516-cfee-4591-9589-8beb9801b4eb",
-                    "leftValue": "={{ $json.message.text }}",
-                    "rightValue": "/guardar_dia",
-                    "operator": {
-                      "type": "string",
-                      "operation": "startsWith"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Comando Guardar"
+              "outputKey": "/start"
             }
           ]
         },
@@ -162,8 +138,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -624,
-        -192
+        -928,
+        -824
       ],
       "id": "70acd028-b223-4e4a-956c-f48596bc2b72",
       "name": "Switch"
@@ -178,8 +154,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -848,
-        -176
+        -1152,
+        -824
       ],
       "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
       "name": "Telegram Trigger",
@@ -202,7 +178,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Rol: Eres una API de extracción de datos financieros. Tu único propósito es analizar el mensaje del usuario, extraer los datos de la transacción y devolver EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código Markdown (no uses ```json), no incluyas saludos ni explicaciones.\n\nREGLAS GENERALES DE MONTOS Y MONEDA:\n1. SIGNOS (INGRESOS VS GASTOS):\n- Si es GASTO (\"gasté\", \"compré\", \"pagué\"): El campo \"amount\" DEBE ser NEGATIVO (ej. -10).\n- Si es INGRESO (\"me pagaron\", \"cobré\", \"recibí\"): El campo \"amount\" DEBE ser POSITIVO (ej. 50).\n\n2. DETECCIÓN DE MONEDA (COP vs USD):\n- Asume Pesos Colombianos (COP) si el monto es mayor a 500 o si usa palabras como \"mil\", \"pesos\" o \"lucas\". \n- Asume Dólares (USD) si el monto es menor o igual a 500, o si usa palabras como \"dólares\", \"verdes\" o \"usd\".\n\nREGLAS DE CUENTAS Y CONVERSIÓN MATEMÁTICA (¡CRÍTICO!):\n1. CUENTAS DISPONIBLES DEL USUARIO: \n{{ $json[\"4. Nombres de tus Cuentas financieras (separados por comas)\"] }}\n(Nota: Si entre estas opciones existe una cuenta llamada \"Efectivo\", asume que esa es la ÚNICA cuenta que maneja Pesos Colombianos COP. Las demás manejan Dólares USD por defecto).\n\n2. LÓGICA DE ASIGNACIÓN:\n- Si el usuario menciona una cuenta explícitamente (ej. \"por Zinli\", \"en Efectivo\"), incluye la clave \"account\" en el JSON con ese nombre exacto.\n- Si NO se especifica la cuenta en el texto, OMITE la clave \"account\" del JSON por completo.\n\n3. REGLA DE CONVERSIÓN COP A USD: \n- COP a USD (División): Si la transacción es en Pesos Colombianos (COP) PERO NO se menciona explícitamente la cuenta \"Efectivo\", asume que se pagó con dólares. DIVIDE el monto en pesos entre 3700 (ej. \"Gasté 6mil pesos\" -> 6000 / 3700 = 1.62. Devuelves \"amount\": -1.62 y omites \"account\").\n- USD a COP (Multiplicación): Si la transacción es en Dólares (USD) PERO se menciona explícitamente la cuenta \"Efectivo\" (que solo maneja COP), DEBES MULTIPLICAR el monto en dólares por 3700. (ej. \"Gasté 20 dólares en efectivo\" -> 20 * 3700 = 74000. Devuelves \"amount\": -74000 y \"account\": \"Efectivo\").\n\nÁRBOL DE CATEGORÍAS Y SUBCATEGORÍAS PERMITIDAS:\nSolo puedes clasificar el gasto usando EXACTAMENTE estas opciones proporcionadas por el usuario:\n{{ $json[\"5. Tus Categorías de Gastos e Ingresos (separados por comas)\"] }}\n\n\nFORMATO JSON DE SALIDA ESPERADO:\n{\n  \"amount\": <número decimal con su signo correspondiente>,\n  \"title\": \"<descripción breve, máximo 3 palabras>\",\n  \"category\": \"<Categoría principal exacta>\",\n  \"subcategory\": \"<Subcategoría exacta>\"\n  // Opcional: \"account\": \"<Solo si el usuario la especificó explícitamente>\"\n}\n\nMensaje del usuario:\n{{ $('Telegram Trigger').item.json.message.text }}"
+              "content": "=Rol: Eres una API de extracción de datos financieros. Tu único propósito es analizar el mensaje del usuario, extraer los datos de la transacción y devolver EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código Markdown (no uses ```json), no incluyas saludos ni explicaciones.\n\nREGLA CERO (FILTRO DE CONVERSACIÓN):\nTu único propósito es extraer datos financieros. Si el mensaje del usuario NO contiene una transacción financiera explícita (por ejemplo, si es un saludo como \"Hola\", una pregunta general, texto sin sentido o una charla casual), DEBES abortar el análisis.\nEn ese caso, tu respuesta DEBE ser ÚNICAMENTE este JSON exacto:\n{\n  \"error\": \"no_financiero\"\n}\n\nREGLAS GENERALES DE MONTOS Y MONEDA:\n1. SIGNOS (INGRESOS VS GASTOS):\n- Si es GASTO (\"gasté\", \"compré\", \"pagué\"): El campo \"amount\" DEBE ser NEGATIVO (ej. -10).\n- Si es INGRESO (\"me pagaron\", \"cobré\", \"recibí\"): El campo \"amount\" DEBE ser POSITIVO (ej. 50).\n\n2. DETECCIÓN DE MONEDA (COP vs USD):\n- Asume Pesos Colombianos (COP) si el monto es mayor a 500 o si usa palabras como \"mil\", \"pesos\" o \"lucas\". \n- Asume Dólares (USD) si el monto es menor o igual a 500, o si usa palabras como \"dólares\", \"verdes\" o \"usd\".\n\nREGLAS DE CUENTAS Y CONVERSIÓN MATEMÁTICA (¡CRÍTICO!):\n1. CUENTAS DISPONIBLES DEL USUARIO: \n{{ $json[\"4. Nombres de tus Cuentas financieras (separados por comas)\"] }}\n(Nota: Si entre estas opciones existe una cuenta llamada \"Efectivo\", asume que esa es la ÚNICA cuenta que maneja Pesos Colombianos COP. Las demás manejan Dólares USD por defecto).\n\n2. LÓGICA DE ASIGNACIÓN:\n- Si el usuario menciona una cuenta explícitamente (ej. \"por Zinli\", \"en Efectivo\"), incluye la clave \"account\" en el JSON con ese nombre exacto.\n- Si NO se especifica la cuenta en el texto, OMITE la clave \"account\" del JSON por completo.\n\n3. REGLA DE CONVERSIÓN COP A USD: \n- COP a USD (División): Si la transacción es en Pesos Colombianos (COP) PERO NO se menciona explícitamente la cuenta \"Efectivo\", asume que se pagó con dólares. DIVIDE el monto en pesos entre 3700 (ej. \"Gasté 6mil pesos\" -> 6000 / 3700 = 1.62. Devuelves \"amount\": -1.62 y omites \"account\").\n- USD a COP (Multiplicación): Si la transacción es en Dólares (USD) PERO se menciona explícitamente la cuenta \"Efectivo\" (que solo maneja COP), DEBES MULTIPLICAR el monto en dólares por 3700. (ej. \"Gasté 20 dólares en efectivo\" -> 20 * 3700 = 74000. Devuelves \"amount\": -74000 y \"account\": \"Efectivo\").\n\nÁRBOL DE CATEGORÍAS Y SUBCATEGORÍAS PERMITIDAS:\nSolo puedes clasificar el gasto usando EXACTAMENTE estas opciones proporcionadas por el usuario:\n{{ $json[\"5. Tus Categorías de Gastos e Ingresos (separados por comas)\"] }}\n\n\nFORMATO JSON DE SALIDA ESPERADO:\n{\n  \"amount\": <número decimal con su signo correspondiente>,\n  \"title\": \"<descripción breve, máximo 3 palabras>\",\n  \"category\": \"<Categoría principal exacta>\",\n  \"subcategory\": \"<Subcategoría exacta>\"\n  // Opcional: \"account\": \"<Solo si el usuario la especificó explícitamente>\"\n}\n\nMensaje del usuario:\n{{ $('Telegram Trigger').item.json.message.text }}"
             }
           ]
         },
@@ -213,8 +189,8 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.1,
       "position": [
-        48,
-        -128
+        -32,
+        -416
       ],
       "id": "fe028eff-fb23-492a-8420-bf2c7b1b1a32",
       "name": "Message a model",
@@ -348,56 +324,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        624,
-        -128
+        768,
+        -320
       ],
       "id": "50a9c905-e5c6-490c-ac2b-348c0293e5c6",
       "name": "Append row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "Registro para Asistente Financiero en Telegram (Cashew) (respuestas)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 798333887,
-          "mode": "list",
-          "cachedResultName": "Gastos_Pendientes",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=798333887"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Chat ID",
-              "lookupValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
-            },
-            {
-              "lookupColumn": "Estado",
-              "lookupValue": "Pendiente"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -400,
-        80
-      ],
-      "id": "0b93b146-c9e5-4a1d-804a-5d3899db4b24",
-      "name": "Get row(s) in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "1lebRD1WyWtpjq3J",
@@ -417,8 +348,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        112,
-        80
+        768,
+        -1184
       ],
       "id": "78ff77e5-97a9-42a3-890a-f796b83d0344",
       "name": "Mensaje de resumen diario",
@@ -442,8 +373,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        848,
-        -128
+        992,
+        -320
       ],
       "id": "fe417c28-3406-4d5f-8062-9fd41b6ba659",
       "name": "Mensaje de guardado en pendientes",
@@ -462,8 +393,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        320,
-        80
+        992,
+        -1184
       ],
       "id": "53f31d24-7cde-4c83-ac04-dfd0835b339b",
       "name": "Code in JavaScript1"
@@ -475,8 +406,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        400,
-        -128
+        320,
+        -416
       ],
       "id": "ed2983e5-a375-4286-9aed-4cfb7f63bbfa",
       "name": "Code procesar gemini"
@@ -488,8 +419,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -176,
-        80
+        544,
+        -1184
       ],
       "id": "5d52e808-2dc6-4470-b9ac-2e496fcc47c8",
       "name": "Code procesar pendientes"
@@ -631,8 +562,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        528,
-        80
+        1216,
+        -1184
       ],
       "id": "4e9aab28-fdce-4451-b8ce-58a677509e50",
       "name": "Update row in sheet",
@@ -640,6 +571,380 @@
         "googleSheetsOAuth2Api": {
           "id": "1lebRD1WyWtpjq3J",
           "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bdc35091-1225-442a-8dde-16c2118e41e6",
+              "leftValue": "={{ $json.ID }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        320,
+        -992
+      ],
+      "id": "ef4447f2-7e2f-4114-ba8c-2e3326c4509c",
+      "name": "If encuentra registros pendientes"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "¡Todo al día! 😎 No tienes gastos pendientes por guardar en este momento.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        -992
+      ],
+      "id": "7ae171d1-ecd6-4218-9f30-8c5a32e3fdea",
+      "name": "Mensaje de todo al dia",
+      "webhookId": "c8935a06-3497-493b-b776-e8be05876cfe",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/guardar_dia",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "392cc324-f32a-415d-8fcb-94b8f47a68b1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/guardar_dia"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "da194956-4cc2-48f8-9233-44593b8591a9",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/pendientes",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/pendientes"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        -720
+      ],
+      "id": "ed6bf45c-778b-4671-b79b-17122b71177e",
+      "name": "Switch Autenticado",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "Registro para Asistente Financiero en Telegram (Cashew) (respuestas)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 798333887,
+          "mode": "list",
+          "cachedResultName": "Gastos_Pendientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=798333887"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Chat ID",
+              "lookupValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            },
+            {
+              "lookupColumn": "Estado",
+              "lookupValue": "Pendiente"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        32,
+        -608
+      ],
+      "id": "9bfd05db-87bf-454f-82f3-4f113503e34a",
+      "name": "Buscar registros en estado pendiente",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "Registro para Asistente Financiero en Telegram (Cashew) (respuestas)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 798333887,
+          "mode": "list",
+          "cachedResultName": "Gastos_Pendientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=798333887"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Chat ID",
+              "lookupValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            },
+            {
+              "lookupColumn": "Estado",
+              "lookupValue": "Pendiente"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        32,
+        -992
+      ],
+      "id": "0b93b146-c9e5-4a1d-804a-5d3899db4b24",
+      "name": "Buscar registros en estado pendiente1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bdc35091-1225-442a-8dde-16c2118e41e6",
+              "leftValue": "={{ $json.ID }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        320,
+        -608
+      ],
+      "id": "20616cfe-0837-4874-beff-4abb7bdbff55",
+      "name": "If encuentra registros pendientes1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "¡Todo al día! 😎 No tienes gastos pendientes por guardar en este momento.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        -608
+      ],
+      "id": "aa18e5e6-a459-4d50-9fc1-432b328315f3",
+      "name": "Mensaje de todo al dia1",
+      "webhookId": "c8935a06-3497-493b-b776-e8be05876cfe",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nlet mensaje = \"📝 <b>Tus transacciones pendientes:</b>\\n\\n\";\nlet contador = 0;\n\nfor (const item of items) {\n  const fila = item.json;\n  \n  // Verificamos que la fila tenga datos reales\n  if(fila.ID) { \n    contador++;\n    mensaje += `🔸 <b>${fila.Titulo}</b>: ${fila.Monto}\\n`;\n    \n    // Agregamos categoría si existe\n    if(fila.Categoria) {\n      let sub = fila.Subcategoria ? ` ➡️ ${fila.Subcategoria}` : '';\n      mensaje += `   └ <i>${fila.Categoria}${sub}</i>\\n`;\n    }\n    // Agregamos cuenta si existe\n    if(fila.Cuenta) {\n      mensaje += `   └ 🏦 <i>${fila.Cuenta}</i>\\n`;\n    }\n    mensaje += \"\\n\"; \n  }\n}\n\nmensaje += `Total: <b>${contador}</b> registro(s) esperando.\\n`;\nmensaje += `👉 Usa /guardar_dia para enviarlos a Cashew.`;\n\nreturn [{\n  json: { textoFormateado: mensaje }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        -800
+      ],
+      "id": "f306a04d-7354-459a-b162-ae7e52ca8e26",
+      "name": "Procesar registros pendientes"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.textoFormateado }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        -800
+      ],
+      "id": "c87e8b29-851a-49c4-860e-cbe07add80b3",
+      "name": "Mensaje con lista de pendientes por guardar",
+      "webhookId": "9c715374-9abf-44e9-a13d-35ab59a3f11a",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2b74da39-c9ed-4484-9f62-1e59a415efbe",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        544,
+        -416
+      ],
+      "id": "4bfd572f-ade4-45e3-995a-e6cdf2a3a5b6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Notifícame cuando quieras registrar una transacción en tu Cashew. 📝",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        -512
+      ],
+      "id": "c7eb1770-39a5-475e-ae5e-17082ec71370",
+      "name": "Send a text message",
+      "webhookId": "aef3e0ae-1d41-476d-a5bb-bb55abbe6780",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
         }
       }
     }
@@ -660,7 +965,7 @@
       "main": [
         [
           {
-            "node": "Message a model",
+            "node": "Switch Autenticado",
             "type": "main",
             "index": 0
           }
@@ -679,13 +984,6 @@
         [
           {
             "node": "Enviar mensaje de bienvenida",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Get row(s) in sheet",
             "type": "main",
             "index": 0
           }
@@ -732,17 +1030,6 @@
         ]
       ]
     },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "Code procesar pendientes",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Mensaje de resumen diario": {
       "main": [
         [
@@ -769,7 +1056,7 @@
       "main": [
         [
           {
-            "node": "Append row in sheet",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -781,6 +1068,118 @@
         [
           {
             "node": "Mensaje de resumen diario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If encuentra registros pendientes": {
+      "main": [
+        [
+          {
+            "node": "Code procesar pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensaje de todo al dia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Autenticado": {
+      "main": [
+        [
+          {
+            "node": "Buscar registros en estado pendiente1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar registros en estado pendiente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar registros en estado pendiente": {
+      "main": [
+        [
+          {
+            "node": "If encuentra registros pendientes1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar registros en estado pendiente1": {
+      "main": [
+        [
+          {
+            "node": "If encuentra registros pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If encuentra registros pendientes1": {
+      "main": [
+        [
+          {
+            "node": "Procesar registros pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensaje de todo al dia1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar registros pendientes": {
+      "main": [
+        [
+          {
+            "node": "Mensaje con lista de pendientes por guardar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
