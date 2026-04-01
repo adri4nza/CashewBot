@@ -30,7 +30,7 @@
       "typeVersion": 4.7,
       "position": [
         -912,
-        -128
+        -32
       ],
       "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
       "name": "Buscar el usuario registrado",
@@ -71,7 +71,7 @@
       "typeVersion": 2.3,
       "position": [
         -688,
-        -128
+        -32
       ],
       "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
       "name": "IF (Si el usuario existe o no existe)"
@@ -115,7 +115,7 @@
       "typeVersion": 3.4,
       "position": [
         -1136,
-        112
+        208
       ],
       "id": "70acd028-b223-4e4a-956c-f48596bc2b72",
       "name": "Switch"
@@ -131,7 +131,7 @@
       "typeVersion": 1.2,
       "position": [
         -1360,
-        112
+        208
       ],
       "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
       "name": "Telegram Trigger",
@@ -154,7 +154,7 @@
         "messages": {
           "values": [
             {
-              "content": "=Rol: Eres una API de extracción de datos financieros. Tu único propósito es analizar el mensaje del usuario, extraer los datos de la transacción y devolver EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código Markdown (no uses ```json), no incluyas saludos ni explicaciones.\n\nREGLA CERO (FILTRO DE CONVERSACIÓN):\nTu único propósito es extraer datos financieros. Si el mensaje del usuario NO contiene una transacción financiera explícita (por ejemplo, si es un saludo como \"Hola\", una pregunta general, texto sin sentido o una charla casual), DEBES abortar el análisis.\nEn ese caso, tu respuesta DEBE ser ÚNICAMENTE este JSON exacto:\n{\n  \"error\": \"no_financiero\"\n}\n\nREGLAS GENERALES DE MONTOS Y MONEDA:\n1. SIGNOS (INGRESOS VS GASTOS):\n- Si es GASTO (\"gasté\", \"compré\", \"pagué\"): El campo \"amount\" DEBE ser NEGATIVO (ej. -10).\n- Si es INGRESO (\"me pagaron\", \"cobré\", \"recibí\"): El campo \"amount\" DEBE ser POSITIVO (ej. 50).\n\n2. DETECCIÓN DE MONEDA (COP vs USD):\n- Asume Pesos Colombianos (COP) si el monto es mayor a 500 o si usa palabras como \"mil\", \"pesos\" o \"lucas\". \n- Asume Dólares (USD) si el monto es menor o igual a 500, o si usa palabras como \"dólares\", \"verdes\" o \"usd\".\n\nREGLAS DE CUENTAS Y CONVERSIÓN MATEMÁTICA (¡CRÍTICO!):\n1. CUENTAS DISPONIBLES DEL USUARIO: \n{{ $json[\"4. Nombres de tus Cuentas financieras (separados por comas)\"] }}\n(Nota: Si entre estas opciones existe una cuenta llamada \"Efectivo\", asume que esa es la ÚNICA cuenta que maneja Pesos Colombianos COP. Las demás manejan Dólares USD por defecto).\n\n2. LÓGICA DE ASIGNACIÓN:\n- Si el usuario menciona una cuenta explícitamente (ej. \"por Zinli\", \"en Efectivo\"), incluye la clave \"account\" en el JSON con ese nombre exacto.\n- Si NO se especifica la cuenta en el texto, OMITE la clave \"account\" del JSON por completo.\n\n3. REGLA DE CONVERSIÓN COP A USD: \n- COP a USD (División): Si la transacción es en Pesos Colombianos (COP) PERO NO se menciona explícitamente la cuenta \"Efectivo\", asume que se pagó con dólares. DIVIDE el monto en pesos entre 3700 (ej. \"Gasté 6mil pesos\" -> 6000 / 3700 = 1.62. Devuelves \"amount\": -1.62 y omites \"account\").\n- USD a COP (Multiplicación): Si la transacción es en Dólares (USD) PERO se menciona explícitamente la cuenta \"Efectivo\" (que solo maneja COP), DEBES MULTIPLICAR el monto en dólares por 3700. (ej. \"Gasté 20 dólares en efectivo\" -> 20 * 3700 = 74000. Devuelves \"amount\": -74000 y \"account\": \"Efectivo\").\n\nÁRBOL DE CATEGORÍAS Y SUBCATEGORÍAS PERMITIDAS:\nSolo puedes clasificar el gasto usando EXACTAMENTE estas opciones proporcionadas por el usuario:\n{{ $json[\"5. Tus Categorías de Gastos e Ingresos (separados por comas)\"] }}\n\n\nFORMATO JSON DE SALIDA ESPERADO:\n{\n  \"amount\": <número decimal con su signo correspondiente>,\n  \"title\": \"<descripción breve, máximo 3 palabras>\",\n  \"category\": \"<Categoría principal exacta>\",\n  \"subcategory\": \"<Subcategoría exacta>\"\n  // Opcional: \"account\": \"<Solo si el usuario la especificó explícitamente>\"\n}\n\nMensaje del usuario:\n{{ $('Telegram Trigger').item.json.message.text }}"
+              "content": "=Rol: Eres una API de extracción de datos financieros. Tu único propósito es analizar el mensaje del usuario, extraer los datos de la transacción y devolver EXCLUSIVAMENTE un objeto JSON válido. No uses bloques de código Markdown (no uses ```json), no incluyas saludos ni explicaciones.\n\nREGLA CERO (FILTRO DE CONVERSACIÓN):\nTu único propósito es extraer datos financieros. Si el mensaje del usuario NO contiene una transacción financiera explícita (por ejemplo, si es un saludo como \"Hola\", una pregunta general, texto sin sentido o una charla casual), DEBES abortar el análisis.\nEn ese caso, tu respuesta DEBE ser ÚNICAMENTE este JSON exacto:\n{\n  \"error\": \"no_financiero\"\n}\n\nREGLAS GENERALES DE MONTOS Y MONEDA:\n1. SIGNOS (INGRESOS VS GASTOS):\n- Si es GASTO (\"gasté\", \"compré\", \"pagué\"): El campo \"amount\" DEBE ser NEGATIVO (ej. -10).\n- Si es INGRESO (\"me pagaron\", \"cobré\", \"recibí\"): El campo \"amount\" DEBE ser POSITIVO (ej. 50).\n\n2. DETECCIÓN DE MONEDA (COP vs USD):\n- Asume Pesos Colombianos (COP) si el monto es mayor a 500 o si usa palabras como \"mil\", \"pesos\" o \"lucas\". \n- Asume Dólares (USD) si el monto es menor o igual a 500, o si usa palabras como \"dólares\", \"verdes\" o \"usd\".\n\nREGLAS DE CUENTAS DISPONIBLES Y CONVERSIÓN (¡CRÍTICO!):\n1. CUENTAS DISPONIBLES DEL USUARIO: \n{{ $json.Cuentas }}\n(Nota: Si existe la cuenta \"Efectivo\", asume que es la ÚNICA que maneja Pesos Colombianos COP. Las demás manejan Dólares USD por defecto).\n\n2. LÓGICA DE ASIGNACIÓN:\n- Si el usuario menciona una cuenta explícitamente (ej. \"por Zinli\", \"en Efectivo\"), incluye la clave \"account\" en el JSON con ese nombre exacto.\n- Si NO se especifica la cuenta en el texto, OMITE la clave \"account\" del JSON por completo.\n\n3. REGLA DE CONVERSIÓN COP A USD: \n- COP a USD (División): Si la transacción es en Pesos Colombianos (COP) PERO NO se menciona explícitamente la cuenta \"Efectivo\", asume que se pagó con dólares. DIVIDE el monto en pesos entre 3700 (ej. \"Gasté 6mil pesos\" -> 6000 / 3700 = 1.62. Devuelves \"amount\": -1.62 y omites \"account\").\n- USD a COP (Multiplicación): Si la transacción es en Dólares (USD) PERO se menciona explícitamente la cuenta \"Efectivo\" (que solo maneja COP), DEBES MULTIPLICAR el monto en dólares por 3700. (ej. \"Gasté 20 dólares en efectivo\" -> 20 * 3700 = 74000. Devuelves \"amount\": -74000 y \"account\": \"Efectivo\").\n\nÁRBOL DE CATEGORÍAS Y SUBCATEGORÍAS PERMITIDAS (JSON):\nA continuación, tienes un objeto JSON exacto donde las claves son las Categorías Principales y los arrays son sus Subcategorías permitidas.\n{{ $json.Estructura_JSON }}\n\nREGLAS DE CLASIFICACIÓN (ESTRICTAS):\n1. El campo \"category\" de tu respuesta DEBE ser una de las claves principales de ese JSON (respetando mayúsculas y acentos).\n2. El campo \"subcategory\" DEBE ser exclusivamente uno de los elementos dentro del array de la categoría que elegiste. \n3. ¡PROHIBIDO INVENTAR! No puedes mezclar una subcategoría de una rama con otra categoría principal. Si la categoría principal tiene un array vacío, no incluyas la clave \"subcategory\" en tu respuesta.\n\nFORMATO JSON DE SALIDA ESPERADO:\n{\n  \"amount\": <número decimal con su signo correspondiente>,\n  \"title\": \"<descripción breve, máximo 3 palabras>\",\n  \"category\": \"<Categoría principal exacta>\"\n  // Opcional: \"subcategory\": \"<Solo si aplica según el JSON y las reglas>\"\n  // Opcional: \"account\": \"<Solo si el usuario la especificó explícitamente>\"\n}\n\nMensaje del usuario:\n{{ $('Telegram Trigger').item.json.message.text }}"
             }
           ]
         },
@@ -937,7 +937,7 @@
       "typeVersion": 1.2,
       "position": [
         -240,
-        304
+        496
       ],
       "id": "fb96625a-eaf6-42e3-bb68-7822a733ca71",
       "name": "Mensaje de bienvenida",
@@ -1052,7 +1052,7 @@
       "typeVersion": 4.7,
       "position": [
         -464,
-        304
+        496
       ],
       "id": "a739fc37-b246-4ce7-bb7b-ebe7fb9fbf43",
       "name": "Registro inicial de usuario",
@@ -1093,7 +1093,7 @@
       "typeVersion": 4.7,
       "position": [
         -912,
-        448
+        640
       ],
       "id": "658d3870-2dc3-4201-8edd-38f750497246",
       "name": "Buscar el usuario registrado1",
@@ -1134,7 +1134,7 @@
       "typeVersion": 2.3,
       "position": [
         -688,
-        448
+        640
       ],
       "id": "6f4deb9a-7132-4e05-84ec-65b61d38ebfd",
       "name": "IF (Si el usuario existe o no existe)1"
@@ -1151,7 +1151,7 @@
       "typeVersion": 1.2,
       "position": [
         -464,
-        496
+        688
       ],
       "id": "12297950-024e-465d-97d2-ee216d2d5ade",
       "name": "Ya estas registrado!",
@@ -1274,7 +1274,7 @@
       "typeVersion": 3.4,
       "position": [
         -464,
-        -208
+        -112
       ],
       "id": "619051d4-8c05-4296-8cf0-486e41598f37",
       "name": "Switch de Estados"
@@ -1292,7 +1292,7 @@
       "typeVersion": 1.2,
       "position": [
         48,
-        112
+        -272
       ],
       "id": "84272d3e-1fed-415c-bd38-680af2263c2a",
       "name": "Cuentas guardadas con éxito",
@@ -1423,7 +1423,7 @@
       "typeVersion": 4.7,
       "position": [
         -240,
-        112
+        -272
       ],
       "id": "d5026881-172e-4dc3-aa72-ab35e7955c3f",
       "name": "GUARDAR CUENTAS",
@@ -1441,8 +1441,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -240,
-        -80
+        48,
+        112
       ],
       "id": "d073f401-27af-4c23-8dd1-667b8ded78de",
       "name": "Sanitizar Categoria"
@@ -1565,8 +1565,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        48,
-        -80
+        336,
+        112
       ],
       "id": "940ed26d-f036-45e7-9ce8-5c162636e503",
       "name": "Guardar categoria temporal",
@@ -1589,8 +1589,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        336,
-        -80
+        560,
+        112
       ],
       "id": "63b5c8a9-ca10-4dcc-8ac9-31f64208e0f4",
       "name": "Esperando subcategorias!",
@@ -1610,7 +1610,7 @@
       "typeVersion": 2,
       "position": [
         -240,
-        -272
+        304
       ],
       "id": "298ed936-bd98-4562-9763-29e6ca633477",
       "name": "Armar JSON Categorias"
@@ -1734,7 +1734,7 @@
       "typeVersion": 4.7,
       "position": [
         48,
-        -272
+        304
       ],
       "id": "99707e8d-007e-4d3f-8e98-ac3852376912",
       "name": "Guardar subcategorias",
@@ -1758,11 +1758,198 @@
       "typeVersion": 1.2,
       "position": [
         336,
-        -272
+        304
       ],
       "id": "c95790d6-90f7-45c8-acab-3ad4915ad567",
       "name": "Send a text message",
       "webhookId": "435e0e8d-f660-4d83-8274-31f9b039fcbe",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8013ebe7-40d6-4033-b88f-3f3bbefce1dd",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+              "rightValue": "/terminar",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "df2a37c2-d966-45ba-b70b-48685374a86e",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "CashewBot DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541734962,
+          "mode": "list",
+          "cachedResultName": "Usuarios",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+            "Estado_Registro": "COMPLETADO"
+          },
+          "matchingColumns": [
+            "Chat ID"
+          ],
+          "schema": [
+            {
+              "id": "Chat ID",
+              "displayName": "Chat ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cuentas",
+              "displayName": "Cuentas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estado_Registro",
+              "displayName": "Estado_Registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Categoria_Temporal",
+              "displayName": "Categoria_Temporal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recordatorio_Diario",
+              "displayName": "Recordatorio_Diario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estructura_JSON",
+              "displayName": "Estructura_JSON",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        48,
+        -80
+      ],
+      "id": "dccbbb9c-f53e-47b9-bd7f-0647ff56d82c",
+      "name": "Pasar a estado COMPLETADO",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🎉 <b>¡Configuración Completada!</b> 🎉\n\nTu perfil y tus categorías han sido guardados con éxito. Tu Asistente Financiero está 100% listo para trabajar.\n\nA partir de este momento, puedes escribirme tus gastos de forma natural. \n<i>Ejemplo: \"Gasté 15 dólares en taxi\" o \"Compré 30 mil pesos de pan\".</i>\n\nUsa el menú (escribiendo /) para ver los comandos disponibles. ¡Comencemos a ordenar tus finanzas! 🚀",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        -80
+      ],
+      "id": "6e9753cc-c1fa-4ddf-9bff-3e2a61efe072",
+      "name": "Send a text message1",
+      "webhookId": "4f2f8139-d856-40bb-b088-2883353c74c4",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
@@ -2066,7 +2253,7 @@
         ],
         [
           {
-            "node": "Sanitizar Categoria",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
@@ -2129,6 +2316,35 @@
         [
           {
             "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Pasar a estado COMPLETADO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sanitizar Categoria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pasar a estado COMPLETADO": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
             "type": "main",
             "index": 0
           }
