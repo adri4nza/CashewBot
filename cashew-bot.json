@@ -30,7 +30,7 @@
       "typeVersion": 4.7,
       "position": [
         -1248,
-        472
+        -80
       ],
       "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
       "name": "Buscar el usuario registrado",
@@ -71,7 +71,7 @@
       "typeVersion": 2.3,
       "position": [
         -1024,
-        472
+        -80
       ],
       "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
       "name": "IF (Si el usuario existe o no existe)"
@@ -88,7 +88,7 @@
       "typeVersion": 1.2,
       "position": [
         -1696,
-        664
+        -80
       ],
       "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
       "name": "Telegram Trigger",
@@ -676,7 +676,7 @@
       "typeVersion": 3.4,
       "position": [
         -352,
-        -728
+        -608
       ],
       "id": "ed6bf45c-778b-4671-b79b-17122b71177e",
       "name": "Switch Autenticado",
@@ -932,7 +932,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡Hola, {{ $('Telegram Trigger').item.json.message.chat.first_name }}! 👋 Bienvenido a tu Asistente Financiero.  Vamos a configurar tu perfil paso a paso.  Primero, dime qué <b>Cuentas</b> o métodos de pago manejas.  Escríbelos separados por comas.  <i>Ejemplo: Binance, Efectivo, Zinli, Bancolombia</i>",
+        "text": "=¡Hola! 👋 Bienvenido a tu Asistente Financiero CashewBot.\n\nPara configurarlo en 2 segundos, ve a tu aplicación de Cashew y haz esto:\n1. Ve a ⚙️ <b>Ajustes > Importar y Exportar Datos</b>.\n2. Toca en <b>Exportar Configuración</b>.\n3. Activa <i>Nombres de cuenta</i> y <i>Nombres de categorías</i>.\n4. Toca \"Exportar\", copia el texto que te da y <b>pégalo aquí mismo en el chat</b>. 👇",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -942,7 +942,7 @@
       "typeVersion": 1.2,
       "position": [
         -352,
-        976
+        400
       ],
       "id": "fb96625a-eaf6-42e3-bb68-7822a733ca71",
       "name": "Mensaje de bienvenida",
@@ -976,7 +976,7 @@
           "value": {
             "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
             "Nombre": "={{ $('Telegram Trigger').item.json.message.chat.first_name }}",
-            "Estado_Registro": "ESPERANDO_CUENTAS"
+            "Estado_Registro": "ESPERANDO_CONFIGURACION"
           },
           "matchingColumns": [],
           "schema": [
@@ -1057,7 +1057,7 @@
       "typeVersion": 4.7,
       "position": [
         -576,
-        976
+        400
       ],
       "id": "a739fc37-b246-4ce7-bb7b-ebe7fb9fbf43",
       "name": "Registro inicial de usuario",
@@ -1080,7 +1080,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        40
+        -368
       ],
       "id": "12297950-024e-465d-97d2-ee216d2d5ade",
       "name": "Ya estas registrado!",
@@ -1106,119 +1106,45 @@
                 },
                 "conditions": [
                   {
+                    "id": "1948fa54-9892-47ba-b205-cfd64b6734fc",
+                    "leftValue": "={{ $json.Estado_Registro }}",
+                    "rightValue": "ESPERANDO_CONFIGURACION",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Procesar JSON"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f8d4137e-5d75-4a99-8cf0-8dfb51b4315a",
                     "leftValue": "={{ $json.Estado_Registro }}",
                     "rightValue": "COMPLETADO",
                     "operator": {
                       "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "b5afcba1-d102-45be-9479-410faee08c5a"
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
                   }
                 ],
                 "combinator": "and"
               },
               "renameOutput": true,
               "outputKey": "COMPLETADO"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "ec5d13b1-289f-4309-8696-af0199a61df0",
-                    "leftValue": "={{ $json.Estado_Registro }}",
-                    "rightValue": "ESPERANDO_CUENTAS",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "CUENTAS"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "3cf79dd2-2e9f-4868-9089-daec9f33c5bf",
-                    "leftValue": "={{ $json.Estado_Registro }}",
-                    "rightValue": "ESPERANDO_CATEGORIA",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "CATEGORIA"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "f960a0ea-5265-43c0-bdb7-e79eaa108280",
-                    "leftValue": "={{ $json.Estado_Registro }}",
-                    "rightValue": "ESPERANDO_SUBCATEGORIAS",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "SUBCATEGORIAS"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "d3b3ab19-65b4-454e-aae4-12e8145cfe66",
-                    "leftValue": "={{ $json.Estado_Registro }}",
-                    "rightValue": "EDITANDO_CUENTAS",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "EDITANDO_CUENTAS"
             }
           ]
         },
@@ -1228,663 +1154,10 @@
       "typeVersion": 3.4,
       "position": [
         -576,
-        232
+        -176
       ],
       "id": "619051d4-8c05-4296-8cf0-486e41598f37",
       "name": "Switch de Estados"
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡Cuentas guardadas con éxito! ✅🏦\n\nAhora, vamos a crear tu árbol de categorías. \nDime el nombre de tu <b>PRIMERA Categoría principal</b> de gasto.\n\n<i>Ejemplo: Alimentación, Transporte, o Servicios (Escribe solo una para empezar).</i>",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        -64,
-        16
-      ],
-      "id": "84272d3e-1fed-415c-bd38-680af2263c2a",
-      "name": "Cuentas guardadas con éxito",
-      "webhookId": "512a1285-3ebd-451d-80fe-710182510ff7",
-      "credentials": {
-        "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Cuentas": "={{ $('Telegram Trigger').item.json.message.text }}",
-            "Estado_Registro": "ESPERANDO_CATEGORIA"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -352,
-        16
-      ],
-      "id": "d5026881-172e-4dc3-aa72-ab35e7955c3f",
-      "name": "GUARDAR CUENTAS",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "let textoBruto = $('Telegram Trigger').first().json.message.text;\n\n// 1. Quitamos espacios accidentales\nlet categoriaLimpia = textoBruto.trim();\n\n// 2. Ponemos la primera letra en mayúscula y el resto en minúscula\ncategoriaLimpia = categoriaLimpia.charAt(0).toUpperCase() + categoriaLimpia.slice(1).toLowerCase();\n\nreturn [{\n  json: { categoriaLimpia: categoriaLimpia }\n}];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -64,
-        400
-      ],
-      "id": "d073f401-27af-4c23-8dd1-667b8ded78de",
-      "name": "Sanitizar Categoria"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Categoria_Temporal": "={{ $json.categoriaLimpia }}",
-            "Estado_Registro": "ESPERANDO_SUBCATEGORIAS"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        224,
-        400
-      ],
-      "id": "940ed26d-f036-45e7-9ce8-5c162636e503",
-      "name": "Guardar categoria temporal",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡Perfecto! 📂 Categoría: <b>{{ $('Sanitizar Categoria').item.json.categoriaLimpia }}</b>  Ahora, dime cuáles son las <b>Subcategorías</b> que pertenecen a esta categoría, separadas por comas.  <i>Ejemplo: Mercado, Restaurantes, Snacks</i> (Si no tiene subcategorías, simplemente escribe \"Ninguna\").",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        448,
-        400
-      ],
-      "id": "63b5c8a9-ca10-4dcc-8ac9-31f64208e0f4",
-      "name": "Esperando subcategorias!",
-      "webhookId": "f981abc1-003d-4f26-97ad-3ff67038b740",
-      "credentials": {
-        "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "// 1. Obtenemos lo que el usuario acaba de escribir (las subcategorías)\nconst subcategoriasTexto = $('Telegram Trigger').item.json.message.text;\n\n// 2. Obtenemos la categoría temporal y el JSON actual (que vienen del nodo de Sheets inicial)\nconst categoriaActual = $json.Categoria_Temporal;\nlet estructuraActual = $json.Estructura_JSON;\n\n// 3. Preparamos el árbol JSON (si está vacío, creamos uno nuevo)\nlet arbol = {};\nif (estructuraActual && estructuraActual.trim() !== \"\") {\n  try {\n    arbol = JSON.parse(estructuraActual);\n  } catch (e) {\n    arbol = {}; \n  }\n}\n\n// 4. Sanitizamos las subcategorías (limpiamos espacios y mayúsculas)\nlet subcategoriasArray = [];\nif (subcategoriasTexto.toLowerCase().trim() !== \"ninguna\") {\n  subcategoriasArray = subcategoriasTexto.split(',').map(s => {\n    let limpia = s.trim();\n    // Capitalizar solo la primera letra\n    return limpia.charAt(0).toUpperCase() + limpia.slice(1).toLowerCase();\n  }).filter(s => s !== \"\"); // Quitamos elementos vacíos si puso comas de más\n}\n\n// 5. Guardamos la nueva categoría con sus hijos en el árbol\narbol[categoriaActual] = subcategoriasArray;\n\n// 6. Convertimos el objeto a texto para guardarlo en Sheets\nconst nuevoJSON = JSON.stringify(arbol);\n\n// 7. Creamos un resumen visual bonito para Telegram\nlet resumenVisual = \"\";\nfor (const [cat, subs] of Object.entries(arbol)) {\n  resumenVisual += `\\n📁 <b>${cat}</b>`;\n  if (subs.length > 0) {\n    resumenVisual += `\\n   └ <i>${subs.join(', ')}</i>`;\n  }\n}\n\nreturn [{\n  json: {\n    nuevoJSON: nuevoJSON,\n    resumenVisual: resumenVisual\n  }\n}];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -352,
-        784
-      ],
-      "id": "298ed936-bd98-4562-9763-29e6ca633477",
-      "name": "Armar JSON Categorias"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Estructura_JSON": "={{ $json.nuevoJSON }}",
-            "Estado_Registro": "ESPERANDO_CATEGORIA"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -64,
-        784
-      ],
-      "id": "99707e8d-007e-4d3f-8e98-ac3852376912",
-      "name": "Guardar subcategorias",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡Guardado impecable! 🌳 Tu estructura hasta ahora se ve así: {{ $('Armar JSON Categorias').item.json.resumenVisual }}  ¿Tienes otra categoría?  Dime el nombre de tu <b>SIGUIENTE Categoría principal</b>.   <i>(Si ya terminaste de agregar todas tus categorías, envía el comando /terminar)</i>",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        224,
-        784
-      ],
-      "id": "c95790d6-90f7-45c8-acab-3ad4915ad567",
-      "name": "Send a text message",
-      "webhookId": "435e0e8d-f660-4d83-8274-31f9b039fcbe",
-      "credentials": {
-        "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "8013ebe7-40d6-4033-b88f-3f3bbefce1dd",
-              "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
-              "rightValue": "/terminar",
-              "operator": {
-                "type": "string",
-                "operation": "startsWith"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -352,
-        304
-      ],
-      "id": "df2a37c2-d966-45ba-b70b-48685374a86e",
-      "name": "If1"
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Estado_Registro": "COMPLETADO"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -64,
-        208
-      ],
-      "id": "dccbbb9c-f53e-47b9-bd7f-0647ff56d82c",
-      "name": "Pasar a estado COMPLETADO",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
     },
     {
       "parameters": {
@@ -1924,7 +1197,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        184
+        -272
       ],
       "id": "cb7e7525-a28b-4ab6-9b0a-09ec2f3869c7",
       "name": "Filtro usuario existente"
@@ -1941,7 +1214,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        520
+        208
       ],
       "id": "4c4b88b3-d22c-4e4b-846c-e6750d2d6854",
       "name": "Inicio sin start",
@@ -1991,7 +1264,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        712
+        400
       ],
       "id": "51ae33da-c81c-42f4-b43d-d0f8465a1866",
       "name": "Filtro Nuevo Usuario"
@@ -2015,32 +1288,7 @@
         "text": "={{ $json.textoPerfil }}",
         "replyMarkup": "inlineKeyboard",
         "inlineKeyboard": {
-          "rows": [
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "➕ Agregar Categoría",
-                    "additionalFields": {
-                      "callback_data": "add_categoria"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "row": {
-                "buttons": [
-                  {
-                    "text": "✏️ Editar Cuentas",
-                    "additionalFields": {
-                      "callback_data": "edit_cuentas"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
+          "rows": []
         },
         "additionalFields": {
           "appendAttribution": false,
@@ -2084,9 +1332,8 @@
           "mappingMode": "defineBelow",
           "value": {
             "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Estado_Registro": "ESPERANDO_CUENTAS",
+            "Estado_Registro": "ESPERANDO_CONFIGURACION",
             "Cuentas": "=",
-            "Categoria_Temporal": "=",
             "Estructura_JSON": "="
           },
           "matchingColumns": [
@@ -2139,7 +1386,7 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true,
-              "removed": false
+              "removed": true
             },
             {
               "id": "Estructura_JSON",
@@ -2185,7 +1432,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡🔄 ¡Perfil Reiniciado! Vamos a configurar tus datos...\n\nPrimero, dime qué <b>Cuentas</b> o métodos de pago manejas.  Escríbelos separados por comas.  <i>Ejemplo: Binance, Efectivo, Zinli, Bancolombia</i>",
+        "text": "=¡Hola! 👋 Bienvenido a tu Asistente Financiero CashewBot.\n\nPara configurarlo en 2 segundos, ve a tu aplicación de Cashew y haz esto:\n1. Ve a ⚙️ <b>Ajustes > Importar y Exportar Datos</b>.\n2. Toca en <b>Exportar Configuración</b>.\n3. Activa <i>Nombres de cuenta</i> y <i>Nombres de categorías</i>.\n4. Toca \"Exportar\", copia el texto que te da y <b>pégalo aquí mismo en el chat</b>. 👇",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -2200,31 +1447,6 @@
       "id": "6cf74428-f3be-418b-bf1f-8c511f5d2cc9",
       "name": "Perfil reiniciado!",
       "webhookId": "81974b54-1339-44e7-940f-980d9bf22cde",
-      "credentials": {
-        "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=🎉 <b>¡Configuración Completada!</b> 🎉\n\nTu perfil y tus categorías han sido guardados con éxito. Tu Asistente Financiero está 100% listo para trabajar.\n\nA partir de este momento, puedes escribirme tus gastos de forma natural. \n<i>Ejemplo: \"Gasté 15 dólares en taxi\" o \"Compré 30 mil pesos de pan\".</i>\n\nUsa el menú (escribiendo /) para ver los comandos disponibles. ¡Comencemos a ordenar tus finanzas! 🚀",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        224,
-        208
-      ],
-      "id": "6e9753cc-c1fa-4ddf-9bff-3e2a61efe072",
-      "name": "Configuración Completada",
-      "webhookId": "4f2f8139-d856-40bb-b088-2883353c74c4",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
@@ -2293,355 +1515,77 @@
       "typeVersion": 3.4,
       "position": [
         -1472,
-        664
+        -80
       ],
       "id": "a7ab5bfa-348c-4052-a479-025920f38616",
       "name": "Texto vs botones"
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('Telegram Trigger').item.json.callback_query.data }}",
-                    "rightValue": "add_categoria",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "10359c6d-6e50-4384-9629-dc3223142b12"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "add_categoria"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "b6a0fc93-8542-46aa-b35f-2c29bdd1c3fb",
-                    "leftValue": "={{ $('Telegram Trigger').item.json.callback_query.data }}",
-                    "rightValue": "edit_cuentas",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "edit_cuentas"
-            }
-          ]
-        },
-        "options": {}
+        "jsCode": "try {\n  const textoUsuario = $('Telegram Trigger').first().json.message.text;\n  const cashewData = JSON.parse(textoUsuario);\n  \n  const cuentasUnidas = cashewData.accounts.join(', ');\n  const arbolCategorias = JSON.stringify(cashewData.categories);\n  \n  return [{\n    json: {\n      exito: true,\n      cuentasFinales: cuentasUnidas,\n      estructuraFinal: arbolCategorias\n    }\n  }];\n\n} catch (error) {\n  return [{\n    json: {\n      exito: false,\n      mensaje: \"⚠️ Error: El texto que enviaste no parece ser la configuración correcta. Asegúrate de copiar el texto exacto desde Cashew y vuelve a pegarlo.\"\n    }\n  }];\n}"
       },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        -1248,
-        1000
+        -352,
+        112
       ],
-      "id": "c56aebaf-90f7-4406-80f4-61fa60e7957a",
-      "name": "Switch de Botones"
+      "id": "df3cc000-46a9-44dc-8f7f-3ceabc86448c",
+      "name": "Extraer Datos JSON"
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
-        "text": "¡Genial! 🌳 Dime el nombre de la <b>NUEVA Categoría principal</b> que quieres agregar a tu perfil.",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c54b9735-ab44-43b2-88cd-34be7e4b4243",
+              "leftValue": "={{ $json.exito }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -64,
+        112
+      ],
+      "id": "1b9e388b-a48c-4341-a81a-b413e12696cc",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $('Extraer Datos JSON').item.json.mensaje }}",
+        "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -800,
-        904
+        224,
+        208
       ],
-      "id": "ad244b8b-fdf7-427d-b173-96ac99abd6b2",
-      "name": "Mensaje para anadir categoria",
-      "webhookId": "3f1fa81d-5c30-4e3c-9fa0-df02d29bf1f9",
+      "id": "6cdcb1f6-f933-4dfc-9978-bf38f030bfd3",
+      "name": "Send a text message",
+      "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
           "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
-            "Estado_Registro": "ESPERANDO_CATEGORIA"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -1024,
-        904
-      ],
-      "id": "a99687f4-cd97-4523-9338-19504ba8d00a",
-      "name": "Cambiar estado a esperando categoria",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
-          "mode": "list",
-          "cachedResultName": "CashewBot DB",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1541734962,
-          "mode": "list",
-          "cachedResultName": "Usuarios",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Chat ID": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
-            "Estado_Registro": "EDITANDO_CUENTAS"
-          },
-          "matchingColumns": [
-            "Chat ID"
-          ],
-          "schema": [
-            {
-              "id": "Chat ID",
-              "displayName": "Chat ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Nombre",
-              "displayName": "Nombre",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Cuentas",
-              "displayName": "Cuentas",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estado_Registro",
-              "displayName": "Estado_Registro",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Categoria_Temporal",
-              "displayName": "Categoria_Temporal",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Estructura_JSON",
-              "displayName": "Estructura_JSON",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Recordatorio_Diario",
-              "displayName": "Recordatorio_Diario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -1024,
-        1096
-      ],
-      "id": "b4026678-60f2-4b06-88c5-3a84cbff018a",
-      "name": "Cambiar estado a editando cuentas",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
-          "name": "Google Sheets OAuth2 API"
         }
       }
     },
@@ -2666,8 +1610,9 @@
           "mappingMode": "defineBelow",
           "value": {
             "Chat ID": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-            "Cuentas": "={{ $('Telegram Trigger').item.json.message.text }}",
-            "Estado_Registro": "COMPLETADO"
+            "Estado_Registro": "COMPLETADO",
+            "Cuentas": "={{ $('Extraer Datos JSON').item.json.cuentasFinales }}",
+            "Estructura_JSON": "={{ $('Extraer Datos JSON').item.json.estructuraFinal }}"
           },
           "matchingColumns": [
             "Chat ID"
@@ -2731,7 +1676,7 @@
               "display": true,
               "type": "string",
               "canBeUsedToMatch": true,
-              "removed": true
+              "removed": false
             },
             {
               "id": "Recordatorio_Diario",
@@ -2763,11 +1708,11 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -352,
-        592
+        224,
+        16
       ],
-      "id": "067a1ecd-1b0a-418f-bbcb-02dd2845d566",
-      "name": "Actualizar cuentas",
+      "id": "c78d8df7-6532-4a79-bb92-45c4cbe00a21",
+      "name": "Guardar configuracion",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "1lebRD1WyWtpjq3J",
@@ -2778,46 +1723,18 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "¡Cuentas actualizadas con éxito! ✅ Puedes verificar los cambios usando /perfil.",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
+        "text": "=🎉 <b>¡Perfil Sincronizado al Instante!</b> 🎉\n\nHe leído tu configuración perfectamente. Ya tengo todas tus cuentas y tu árbol de categorías listo.\n\nA partir de este momento, puedes escribirme tus gastos de forma natural. \n<i>Ejemplo: \"Gasté 15 dólares en taxi\" o \"Compré 30 mil pesos de pan\".</i> 🚀",
+        "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -64,
-        592
+        448,
+        16
       ],
-      "id": "b83845d8-d9ec-469f-b341-c584149ec6be",
-      "name": "Confirmacion de cuentas actualizadas",
-      "webhookId": "b85596f4-7a60-473b-ba61-e91a39fa22bc",
-      "credentials": {
-        "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
-          "name": "Telegram account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
-        "text": "=Envíame tus cuentas actualizadas separadas por comas. \n(Nota: Esto reemplazará tu lista de cuentas anterior)",
-        "additionalFields": {
-          "appendAttribution": false,
-          "parse_mode": "HTML"
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        -800,
-        1096
-      ],
-      "id": "91d47d0d-653f-433b-a484-8ed4131c2eee",
-      "name": "Mensaje para actualizar cuentas",
-      "webhookId": "3f1fa81d-5c30-4e3c-9fa0-df02d29bf1f9",
+      "id": "4a1acdc1-a73a-42f6-8133-45ded495467f",
+      "name": "Configuracion guardada!",
+      "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
@@ -3074,119 +1991,14 @@
       "main": [
         [
           {
+            "node": "Extraer Datos JSON",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Switch Autenticado",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "GUARDAR CUENTAS",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Armar JSON Categorias",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Actualizar cuentas",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "GUARDAR CUENTAS": {
-      "main": [
-        [
-          {
-            "node": "Cuentas guardadas con éxito",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Sanitizar Categoria": {
-      "main": [
-        [
-          {
-            "node": "Guardar categoria temporal",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Guardar categoria temporal": {
-      "main": [
-        [
-          {
-            "node": "Esperando subcategorias!",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Armar JSON Categorias": {
-      "main": [
-        [
-          {
-            "node": "Guardar subcategorias",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Guardar subcategorias": {
-      "main": [
-        [
-          {
-            "node": "Send a text message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If1": {
-      "main": [
-        [
-          {
-            "node": "Pasar a estado COMPLETADO",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Sanitizar Categoria",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Pasar a estado COMPLETADO": {
-      "main": [
-        [
-          {
-            "node": "Configuración Completada",
             "type": "main",
             "index": 0
           }
@@ -3260,60 +2072,43 @@
             "index": 0
           }
         ],
+        []
+      ]
+    },
+    "Extraer Datos JSON": {
+      "main": [
         [
           {
-            "node": "Switch de Botones",
+            "node": "If1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Switch de Botones": {
+    "If1": {
       "main": [
         [
           {
-            "node": "Cambiar estado a esperando categoria",
+            "node": "Guardar configuracion",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Cambiar estado a editando cuentas",
+            "node": "Send a text message",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Cambiar estado a esperando categoria": {
+    "Guardar configuracion": {
       "main": [
         [
           {
-            "node": "Mensaje para anadir categoria",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cambiar estado a editando cuentas": {
-      "main": [
-        [
-          {
-            "node": "Mensaje para actualizar cuentas",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Actualizar cuentas": {
-      "main": [
-        [
-          {
-            "node": "Confirmacion de cuentas actualizadas",
+            "node": "Configuracion guardada!",
             "type": "main",
             "index": 0
           }
