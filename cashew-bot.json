@@ -30,7 +30,7 @@
       "typeVersion": 4.7,
       "position": [
         -1248,
-        -72
+        -112
       ],
       "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
       "name": "Buscar el usuario registrado",
@@ -71,7 +71,7 @@
       "typeVersion": 2.3,
       "position": [
         -1024,
-        -72
+        -112
       ],
       "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
       "name": "IF (Si el usuario existe o no existe)"
@@ -88,7 +88,7 @@
       "typeVersion": 1.2,
       "position": [
         -1696,
-        -72
+        -16
       ],
       "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
       "name": "Telegram Trigger",
@@ -123,7 +123,7 @@
       "typeVersion": 1.1,
       "position": [
         -128,
-        -360
+        720
       ],
       "id": "fe028eff-fb23-492a-8420-bf2c7b1b1a32",
       "name": "Message a model",
@@ -259,7 +259,7 @@
       "typeVersion": 4.7,
       "position": [
         672,
-        -168
+        912
       ],
       "id": "50a9c905-e5c6-490c-ac2b-348c0293e5c6",
       "name": "Append row in sheet",
@@ -283,7 +283,7 @@
       "typeVersion": 1.2,
       "position": [
         672,
-        -848
+        -528
       ],
       "id": "78ff77e5-97a9-42a3-890a-f796b83d0344",
       "name": "Mensaje de resumen diario",
@@ -308,7 +308,7 @@
       "typeVersion": 1.2,
       "position": [
         896,
-        -168
+        912
       ],
       "id": "fe417c28-3406-4d5f-8062-9fd41b6ba659",
       "name": "Mensaje de guardado en pendientes",
@@ -328,7 +328,7 @@
       "typeVersion": 2,
       "position": [
         896,
-        -848
+        -528
       ],
       "id": "53f31d24-7cde-4c83-ac04-dfd0835b339b",
       "name": "Code in JavaScript1"
@@ -341,7 +341,7 @@
       "typeVersion": 2,
       "position": [
         224,
-        -360
+        720
       ],
       "id": "ed2983e5-a375-4286-9aed-4cfb7f63bbfa",
       "name": "Code procesar gemini"
@@ -354,7 +354,7 @@
       "typeVersion": 2,
       "position": [
         448,
-        -848
+        -528
       ],
       "id": "5d52e808-2dc6-4470-b9ac-2e496fcc47c8",
       "name": "Code procesar pendientes"
@@ -497,7 +497,7 @@
       "typeVersion": 4.7,
       "position": [
         1120,
-        -848
+        -528
       ],
       "id": "4e9aab28-fdce-4451-b8ce-58a677509e50",
       "name": "Update row in sheet",
@@ -538,7 +538,7 @@
       "typeVersion": 2.3,
       "position": [
         224,
-        -752
+        -432
       ],
       "id": "ef4447f2-7e2f-4114-ba8c-2e3326c4509c",
       "name": "If encuentra registros pendientes"
@@ -555,7 +555,7 @@
       "typeVersion": 1.2,
       "position": [
         448,
-        -656
+        -336
       ],
       "id": "7ae171d1-ecd6-4218-9f30-8c5a32e3fdea",
       "name": "Mensaje de todo al dia",
@@ -666,6 +666,30 @@
               },
               "renameOutput": true,
               "outputKey": "/reiniciar_perfil"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b680d6d5-4a4e-4828-9d09-160d86f56ba6",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/recordatorio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "/recordatorio"
             }
           ]
         },
@@ -677,7 +701,7 @@
       "typeVersion": 3.4,
       "position": [
         -352,
-        -600
+        176
       ],
       "id": "ed6bf45c-778b-4671-b79b-17122b71177e",
       "name": "Switch Autenticado",
@@ -717,7 +741,7 @@
       "typeVersion": 4.7,
       "position": [
         -64,
-        -1136
+        -48
       ],
       "id": "9bfd05db-87bf-454f-82f3-4f113503e34a",
       "name": "Buscar registros en estado pendiente",
@@ -763,7 +787,7 @@
       "typeVersion": 4.7,
       "position": [
         -64,
-        -752
+        -432
       ],
       "id": "0b93b146-c9e5-4a1d-804a-5d3899db4b24",
       "name": "Buscar registros en estado pendiente1",
@@ -805,7 +829,7 @@
       "typeVersion": 2.3,
       "position": [
         224,
-        -1136
+        -48
       ],
       "id": "20616cfe-0837-4874-beff-4abb7bdbff55",
       "name": "If encuentra registros pendientes1"
@@ -822,7 +846,7 @@
       "typeVersion": 1.2,
       "position": [
         448,
-        -1040
+        232
       ],
       "id": "aa18e5e6-a459-4d50-9fc1-432b328315f3",
       "name": "Mensaje de todo al dia1",
@@ -842,7 +866,7 @@
       "typeVersion": 2,
       "position": [
         448,
-        -1232
+        -144
       ],
       "id": "f306a04d-7354-459a-b162-ae7e52ca8e26",
       "name": "Procesar registros pendientes"
@@ -860,7 +884,7 @@
       "typeVersion": 1.2,
       "position": [
         672,
-        -1232
+        -144
       ],
       "id": "c87e8b29-851a-49c4-860e-cbe07add80b3",
       "name": "Mensaje con lista de pendientes por guardar",
@@ -884,7 +908,7 @@
       "typeVersion": 1.2,
       "position": [
         672,
-        -648
+        240
       ],
       "id": "c7eb1770-39a5-475e-ae5e-17082ec71370",
       "name": "Mensaje por defecto",
@@ -909,7 +933,7 @@
       "typeVersion": 1.2,
       "position": [
         -352,
-        408
+        496
       ],
       "id": "fb96625a-eaf6-42e3-bb68-7822a733ca71",
       "name": "Mensaje de bienvenida",
@@ -1024,7 +1048,7 @@
       "typeVersion": 4.7,
       "position": [
         -576,
-        408
+        496
       ],
       "id": "a739fc37-b246-4ce7-bb7b-ebe7fb9fbf43",
       "name": "Registro inicial de usuario",
@@ -1047,7 +1071,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        -360
+        -432
       ],
       "id": "12297950-024e-465d-97d2-ee216d2d5ade",
       "name": "Ya estas registrado!",
@@ -1121,7 +1145,7 @@
       "typeVersion": 3.4,
       "position": [
         -576,
-        -168
+        -240
       ],
       "id": "619051d4-8c05-4296-8cf0-486e41598f37",
       "name": "Switch de Estados"
@@ -1164,7 +1188,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        -264
+        -336
       ],
       "id": "cb7e7525-a28b-4ab6-9b0a-09ec2f3869c7",
       "name": "Filtro usuario existente"
@@ -1181,7 +1205,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        216
+        688
       ],
       "id": "4c4b88b3-d22c-4e4b-846c-e6750d2d6854",
       "name": "Inicio sin start",
@@ -1231,7 +1255,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        408
+        592
       ],
       "id": "51ae33da-c81c-42f4-b43d-d0f8465a1866",
       "name": "Filtro Nuevo Usuario"
@@ -1244,7 +1268,7 @@
       "typeVersion": 2,
       "position": [
         -64,
-        -552
+        144
       ],
       "id": "21a5954a-8799-4c7e-8dbd-d7c354aa7551",
       "name": "Code in JavaScript"
@@ -1266,7 +1290,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        -552
+        144
       ],
       "id": "48f7f9b7-aa33-472b-bf70-abab454314dc",
       "name": "Enviar perfil",
@@ -1385,7 +1409,7 @@
       "typeVersion": 4.7,
       "position": [
         -64,
-        -168
+        336
       ],
       "id": "33547c8e-d58e-4830-b576-44442ce86d71",
       "name": "Reiniciar perfil",
@@ -1409,7 +1433,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        -168
+        336
       ],
       "id": "6cf74428-f3be-418b-bf1f-8c511f5d2cc9",
       "name": "Perfil reiniciado!",
@@ -1482,7 +1506,7 @@
       "typeVersion": 3.4,
       "position": [
         -1472,
-        -72
+        -16
       ],
       "id": "a7ab5bfa-348c-4052-a479-025920f38616",
       "name": "Texto vs botones"
@@ -1495,7 +1519,7 @@
       "typeVersion": 2,
       "position": [
         -352,
-        120
+        -720
       ],
       "id": "df3cc000-46a9-44dc-8f7f-3ceabc86448c",
       "name": "Extraer Datos JSON"
@@ -1529,7 +1553,7 @@
       "typeVersion": 2.3,
       "position": [
         -64,
-        120
+        -720
       ],
       "id": "1b9e388b-a48c-4341-a81a-b413e12696cc",
       "name": "If1"
@@ -1544,7 +1568,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        216
+        -624
       ],
       "id": "6cdcb1f6-f933-4dfc-9978-bf38f030bfd3",
       "name": "Send a text message",
@@ -1676,7 +1700,7 @@
       "typeVersion": 4.7,
       "position": [
         224,
-        24
+        -816
       ],
       "id": "c78d8df7-6532-4a79-bb92-45c4cbe00a21",
       "name": "Guardar configuracion",
@@ -1700,7 +1724,7 @@
       "typeVersion": 1.2,
       "position": [
         448,
-        24
+        -816
       ],
       "id": "4a1acdc1-a73a-42f6-8133-45ded495467f",
       "name": "Configuracion guardada!",
@@ -1776,7 +1800,7 @@
       "typeVersion": 3.4,
       "position": [
         448,
-        -376
+        704
       ],
       "id": "c73a6ef6-4d94-4192-8ad8-d210c44d6284",
       "name": "Switch"
@@ -1794,11 +1818,283 @@
       "typeVersion": 1.2,
       "position": [
         672,
-        -360
+        720
       ],
       "id": "24f676b9-8506-459c-8e10-03a4bdc8f587",
       "name": "Aviso de fallo IA",
       "webhookId": "7c9df5c7-5fac-4a97-ae4d-93bc54eea75c",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "¿A qué hora deseas que te recuerde guardar tus gastos pendientes?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "19:00",
+                    "additionalFields": {
+                      "callback_data": "rec_19:00"
+                    }
+                  },
+                  {
+                    "text": "20:00",
+                    "additionalFields": {
+                      "callback_data": "rec_20:00"
+                    }
+                  },
+                  {
+                    "text": "21:00",
+                    "additionalFields": {
+                      "callback_data": "rec_21:00"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔕 Desactivar",
+                    "additionalFields": {
+                      "callback_data": "rec_OFF"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -64,
+        528
+      ],
+      "id": "c4754e62-07ba-4d7c-9609-995a8daafa97",
+      "name": "Menú Recordatorio",
+      "webhookId": "00dfebad-0012-4728-929b-c4e0f885976a",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.callback_query.data }}",
+                    "rightValue": "rec_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "680a8249-7f19-4728-8a35-137168f0d738"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Configurar Recordatorio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1248,
+        880
+      ],
+      "id": "e8ca1fb3-166b-472e-9c49-a29efcc4efbb",
+      "name": "Switch de Botones"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Atrapamos qué botón se pulsó (ej: \"rec_20:00\" o \"rec_OFF\")\nconst boton = $('Telegram Trigger').first().json.callback_query.data;\n\n// Le quitamos el \"rec_\" para quedarnos solo con el valor puro\nconst valor = boton.replace('rec_', '');\n\nlet mensaje = '';\nif (valor === 'OFF') {\n  mensaje = \"🔕 <b>Recordatorio desactivado.</b> Ya no te molestaré por las noches.\";\n} else {\n  mensaje = `⏰ <b>Recordatorio activado.</b> Te avisaré todos los días a las ${valor} si tienes gastos sin guardar.`;\n}\n\nreturn [{\n  json: {\n    valor_bd: valor,\n    mensaje_telegram: mensaje\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1024,
+        880
+      ],
+      "id": "7df5b800-4fbb-4eaf-919f-03b67b52890c",
+      "name": "Parsear eleccion del recordatorio"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "CashewBot DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541734962,
+          "mode": "list",
+          "cachedResultName": "Usuarios",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chat ID": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+            "Recordatorio_Diario": "={{ $json.valor_bd }}"
+          },
+          "matchingColumns": [
+            "Chat ID"
+          ],
+          "schema": [
+            {
+              "id": "Chat ID",
+              "displayName": "Chat ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cuentas",
+              "displayName": "Cuentas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estado_Registro",
+              "displayName": "Estado_Registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Categoria_Temporal",
+              "displayName": "Categoria_Temporal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estructura_JSON",
+              "displayName": "Estructura_JSON",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Recordatorio_Diario",
+              "displayName": "Recordatorio_Diario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -800,
+        880
+      ],
+      "id": "6206e39c-fe87-4e74-a048-c113530e11e4",
+      "name": "Guardar configuracion de recordatorio",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "={{ $('Parsear eleccion del recordatorio').item.json.mensaje_telegram }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        880
+      ],
+      "id": "8883e036-f602-4035-af89-86787d136d7b",
+      "name": "Confirmacion de guardado de recordatorio",
+      "webhookId": "07f2f7eb-8cc2-41d2-988e-f3cc4a610230",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
@@ -1850,6 +2146,13 @@
     },
     "Message a model": {
       "main": [
+        [
+          {
+            "node": "Code procesar gemini",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Code procesar gemini",
@@ -1958,6 +2261,13 @@
         [
           {
             "node": "Reiniciar perfil",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menú Recordatorio",
             "type": "main",
             "index": 0
           }
@@ -2118,7 +2428,13 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "Switch de Botones",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Extraer Datos JSON": {
@@ -2180,6 +2496,39 @@
         [
           {
             "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch de Botones": {
+      "main": [
+        [
+          {
+            "node": "Parsear eleccion del recordatorio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear eleccion del recordatorio": {
+      "main": [
+        [
+          {
+            "node": "Guardar configuracion de recordatorio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar configuracion de recordatorio": {
+      "main": [
+        [
+          {
+            "node": "Confirmacion de guardado de recordatorio",
             "type": "main",
             "index": 0
           }

@@ -1,0 +1,218 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "81ab0ec6-f2f9-487d-93ab-8de2cd215327",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Forzamos la hora exacta de Venezuela sin importar dónde esté el servidor de n8n\nconst fecha = new Date(new Date().toLocaleString(\"en-US\", {timeZone: \"America/Caracas\"}));\n\n// Extraemos solo la hora y le aseguramos 2 dígitos (ej. \"09\" o \"20\")\nconst hora = fecha.getHours().toString().padStart(2, '0');\n\n// Armamos el formato exacto que guardaste en tu Sheets (ej. \"20:00\")\nconst horaAbuscar = `${hora}:00`;\n\nreturn [{ json: { horaAbuscar: horaAbuscar } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "74077d02-9390-4683-ba6e-01d4fca51b05",
+      "name": "Calcular zona horaria"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Rescatamos los datos de los dos nodos de Sheets usando el nombre de los nodos\n// OJO: Asegúrate de que los nombres de los nodos de Sheets coincidan con los de abajo, \n// o cambia los nombres en este código para que coincidan con tu lienzo.\nconst usuarios = $('Google Sheets').all().map(u => u.json); // El nodo del Paso 4\nconst pendientes = $('Google Sheets1').all().map(p => p.json); // El nodo del Paso 5\n\nconst alertas = [];\n\nfor (const usuario of usuarios) {\n  const chatId = usuario[\"Chat ID\"];\n  \n  // Filtramos cuántos gastos le pertenecen a este usuario específico\n  const gastosDelUsuario = pendientes.filter(p => p[\"Chat ID\"] == chatId);\n  \n  // Si tiene al menos 1 gasto pendiente, lo agregamos a la lista de alertas\n  if (gastosDelUsuario.length > 0) {\n    alertas.push({\n      json: {\n        chat_id: chatId,\n        nombre: usuario.Nombre,\n        cantidad: gastosDelUsuario.length\n      }\n    });\n  }\n}\n\n// Si nadie tiene pendientes, esto devuelve un arreglo vacío y n8n detiene el flujo silenciosamente.\nreturn alertas;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ],
+      "id": "a5fcfdd7-2f0f-4b3b-a960-ba9fea4252b5",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "CashewBot DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541734962,
+          "mode": "list",
+          "cachedResultName": "Usuarios",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Recordatorio_Diario",
+              "lookupValue": "={{ $json.horaAbuscar }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "9d447202-93fd-4945-8afd-2c1c61f92d3c",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "CashewBot DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 798333887,
+          "mode": "list",
+          "cachedResultName": "Gastos_Pendientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=798333887"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Estado",
+              "lookupValue": "Pendiente"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        0
+      ],
+      "id": "4e23e822-c7bb-497b-a4dc-9328a3bcde39",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1lebRD1WyWtpjq3J",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "=🔔 <b>¡Hola {{ $json.nombre }}, no olvides tus finanzas!</b>  Tienes <b>{{ $json.cantidad }}</b> gasto(s) en tu carrito esperando ser guardados en la base de datos.  👉 Envía /pendientes para revisarlos o /guardar_dia para enviarlos todos a tu app de Cashew.  (Si quieres cambiar la hora de este aviso, usa /recordatorio). ¡Buenas noches! 🌙",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "b2b0f006-b8ca-4bc9-af39-9452b2b606e5",
+      "name": "Send a text message",
+      "webhookId": "aac6236d-49fe-4af6-b48d-524650cb52f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Calcular zona horaria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular zona horaria": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b275672e57a7da5706eb21a48d09cf89321781fd82c00ad00f65ff4579f2609"
+  }
+}
