@@ -30,7 +30,7 @@
       "typeVersion": 4.7,
       "position": [
         -1248,
-        -80
+        -72
       ],
       "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
       "name": "Buscar el usuario registrado",
@@ -71,7 +71,7 @@
       "typeVersion": 2.3,
       "position": [
         -1024,
-        -80
+        -72
       ],
       "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
       "name": "IF (Si el usuario existe o no existe)"
@@ -88,7 +88,7 @@
       "typeVersion": 1.2,
       "position": [
         -1696,
-        -80
+        -72
       ],
       "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
       "name": "Telegram Trigger",
@@ -123,7 +123,7 @@
       "typeVersion": 1.1,
       "position": [
         -128,
-        -368
+        -360
       ],
       "id": "fe028eff-fb23-492a-8420-bf2c7b1b1a32",
       "name": "Message a model",
@@ -132,7 +132,8 @@
           "id": "PHFta0hVOFbvMZSq",
           "name": "Google Gemini(PaLM) Api account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -258,7 +259,7 @@
       "typeVersion": 4.7,
       "position": [
         672,
-        -272
+        -168
       ],
       "id": "50a9c905-e5c6-490c-ac2b-348c0293e5c6",
       "name": "Append row in sheet",
@@ -297,7 +298,7 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=✅ <b>Guardado en pendientes</b>\n\n🛒 <b>{{ $('Code procesar gemini').item.json.title }}</b>\n💵 Monto: {{ $('Code procesar gemini').item.json.amount }}\n📂 Cat: {{ $('Code procesar gemini').item.json.category }}\n🏦 Cuenta: {{ $('Code procesar gemini').item.json.account || 'Principal (Binance)' }}",
+        "text": "=✅ <b>Guardado en pendientes</b>\n\n🛒 <b>{{ $('Code procesar gemini').item.json.title }}</b>\n💵 Monto: {{ $('Code procesar gemini').item.json.amount }}\n📂 Cat: {{ $('Code procesar gemini').item.json.category }}{{ $('Code procesar gemini').item.json.subcategory ? ' ➡️ ' + $('Code procesar gemini').item.json.subcategory : '' }}\n🏦 Cuenta: {{ $('Code procesar gemini').item.json.account || 'Por defecto' }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -307,7 +308,7 @@
       "typeVersion": 1.2,
       "position": [
         896,
-        -272
+        -168
       ],
       "id": "fe417c28-3406-4d5f-8062-9fd41b6ba659",
       "name": "Mensaje de guardado en pendientes",
@@ -334,13 +335,13 @@
     },
     {
       "parameters": {
-        "jsCode": "// 1. Extraemos y parseamos los datos de Gemini\nconst rawText = $input.first().json.content.parts[0].text;\nconst data = JSON.parse(rawText);\n\n// 2. Generamos datos de control para la base de datos\ndata.id = Date.now().toString(); // Un ID único basado en el milisegundo actual\n// Usamos la zona horaria de Venezuela para que la fecha sea exacta\ndata.fecha = new Date().toLocaleString(\"es-VE\", { timeZone: \"America/Caracas\" }); \ndata.estado = \"Pendiente\";\n\n// 3. Devolvemos los datos limpios\nreturn { json: data };"
+        "jsCode": "try {\n  // 1. Verificamos si el nodo de Gemini falló y trajo un error de API\n  if ($input.first().json.error || !$input.first().json.content) {\n    throw new Error(\"Falla en la API de Gemini\");\n  }\n\n  // 2. Extraemos y parseamos los datos\n  const rawText = $input.first().json.content.parts[0].text;\n  const data = JSON.parse(rawText);\n\n  // Si el usuario envió un saludo (\"no_financiero\"), lo pasamos tal cual\n  if (data.error) {\n     return [{ json: data }];\n  }\n\n  // 3. Generamos datos de control para la base de datos\n  data.id = Date.now().toString(); \n  data.fecha = new Date().toLocaleString(\"es-VE\", { timeZone: \"America/Caracas\" }); \n  data.estado = \"Pendiente\";\n\n  return [{ json: data }];\n\n} catch (e) {\n  // 4. EL ESCUDO: Si la API falla o el JSON es inválido, atrapamos el error\n  const textoOriginal = $('Telegram Trigger').first().json.message.text;\n  \n  return [{ \n    json: { \n      error: \"api_falla\", \n      texto_original: textoOriginal \n    } \n  }];\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         224,
-        -368
+        -360
       ],
       "id": "ed2983e5-a375-4286-9aed-4cfb7f63bbfa",
       "name": "Code procesar gemini"
@@ -676,7 +677,7 @@
       "typeVersion": 3.4,
       "position": [
         -352,
-        -608
+        -600
       ],
       "id": "ed6bf45c-778b-4671-b79b-17122b71177e",
       "name": "Switch Autenticado",
@@ -873,40 +874,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "2b74da39-c9ed-4484-9f62-1e59a415efbe",
-              "leftValue": "={{ $json.error }}",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "notEmpty",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        448,
-        -368
-      ],
-      "id": "4bfd572f-ade4-45e3-995a-e6cdf2a3a5b6",
-      "name": "If"
-    },
-    {
-      "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "text": "Notifícame cuando quieras registrar una transacción en tu Cashew. 📝",
         "additionalFields": {
@@ -917,7 +884,7 @@
       "typeVersion": 1.2,
       "position": [
         672,
-        -560
+        -648
       ],
       "id": "c7eb1770-39a5-475e-ae5e-17082ec71370",
       "name": "Mensaje por defecto",
@@ -942,7 +909,7 @@
       "typeVersion": 1.2,
       "position": [
         -352,
-        400
+        408
       ],
       "id": "fb96625a-eaf6-42e3-bb68-7822a733ca71",
       "name": "Mensaje de bienvenida",
@@ -1057,7 +1024,7 @@
       "typeVersion": 4.7,
       "position": [
         -576,
-        400
+        408
       ],
       "id": "a739fc37-b246-4ce7-bb7b-ebe7fb9fbf43",
       "name": "Registro inicial de usuario",
@@ -1080,7 +1047,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        -368
+        -360
       ],
       "id": "12297950-024e-465d-97d2-ee216d2d5ade",
       "name": "Ya estas registrado!",
@@ -1154,7 +1121,7 @@
       "typeVersion": 3.4,
       "position": [
         -576,
-        -176
+        -168
       ],
       "id": "619051d4-8c05-4296-8cf0-486e41598f37",
       "name": "Switch de Estados"
@@ -1197,7 +1164,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        -272
+        -264
       ],
       "id": "cb7e7525-a28b-4ab6-9b0a-09ec2f3869c7",
       "name": "Filtro usuario existente"
@@ -1214,7 +1181,7 @@
       "typeVersion": 1.2,
       "position": [
         -576,
-        208
+        216
       ],
       "id": "4c4b88b3-d22c-4e4b-846c-e6750d2d6854",
       "name": "Inicio sin start",
@@ -1264,7 +1231,7 @@
       "typeVersion": 3.4,
       "position": [
         -800,
-        400
+        408
       ],
       "id": "51ae33da-c81c-42f4-b43d-d0f8465a1866",
       "name": "Filtro Nuevo Usuario"
@@ -1277,7 +1244,7 @@
       "typeVersion": 2,
       "position": [
         -64,
-        -560
+        -552
       ],
       "id": "21a5954a-8799-4c7e-8dbd-d7c354aa7551",
       "name": "Code in JavaScript"
@@ -1299,7 +1266,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        -560
+        -552
       ],
       "id": "48f7f9b7-aa33-472b-bf70-abab454314dc",
       "name": "Enviar perfil",
@@ -1418,7 +1385,7 @@
       "typeVersion": 4.7,
       "position": [
         -64,
-        -176
+        -168
       ],
       "id": "33547c8e-d58e-4830-b576-44442ce86d71",
       "name": "Reiniciar perfil",
@@ -1442,7 +1409,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        -176
+        -168
       ],
       "id": "6cf74428-f3be-418b-bf1f-8c511f5d2cc9",
       "name": "Perfil reiniciado!",
@@ -1515,7 +1482,7 @@
       "typeVersion": 3.4,
       "position": [
         -1472,
-        -80
+        -72
       ],
       "id": "a7ab5bfa-348c-4052-a479-025920f38616",
       "name": "Texto vs botones"
@@ -1528,7 +1495,7 @@
       "typeVersion": 2,
       "position": [
         -352,
-        112
+        120
       ],
       "id": "df3cc000-46a9-44dc-8f7f-3ceabc86448c",
       "name": "Extraer Datos JSON"
@@ -1562,7 +1529,7 @@
       "typeVersion": 2.3,
       "position": [
         -64,
-        112
+        120
       ],
       "id": "1b9e388b-a48c-4341-a81a-b413e12696cc",
       "name": "If1"
@@ -1577,7 +1544,7 @@
       "typeVersion": 1.2,
       "position": [
         224,
-        208
+        216
       ],
       "id": "6cdcb1f6-f933-4dfc-9978-bf38f030bfd3",
       "name": "Send a text message",
@@ -1709,7 +1676,7 @@
       "typeVersion": 4.7,
       "position": [
         224,
-        16
+        24
       ],
       "id": "c78d8df7-6532-4a79-bb92-45c4cbe00a21",
       "name": "Guardar configuracion",
@@ -1724,17 +1691,114 @@
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "text": "=🎉 <b>¡Perfil Sincronizado al Instante!</b> 🎉\n\nHe leído tu configuración perfectamente. Ya tengo todas tus cuentas y tu árbol de categorías listo.\n\nA partir de este momento, puedes escribirme tus gastos de forma natural. \n<i>Ejemplo: \"Gasté 15 dólares en taxi\" o \"Compré 30 mil pesos de pan\".</i> 🚀",
-        "additionalFields": {}
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
         448,
-        16
+        24
       ],
       "id": "4a1acdc1-a73a-42f6-8133-45ded495467f",
       "name": "Configuracion guardada!",
       "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
+      "credentials": {
+        "telegramApi": {
+          "id": "B8CXWjWtC7iP0fJh",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.error }}",
+                    "rightValue": "no_financiero",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "56f414f1-c956-4b13-80d3-c722125d365b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Saludo"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1ed8efbe-2454-416a-a07a-8e16151d2dc4",
+                    "leftValue": "={{ $json.error }}",
+                    "rightValue": "api_falla",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Falla IA"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Exito"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        -376
+      ],
+      "id": "c73a6ef6-4d94-4192-8ad8-d210c44d6284",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=⚠️ <b>¡Ups! Mi cerebro de IA tuvo un micro-corte.</b>\n\nNo pude procesar tu último gasto por un fallo de conexión. Por favor, toca el texto de abajo para copiarlo y vuélvelo a enviar:\n\n<code>{{ $json.texto_original }}</code>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        -360
+      ],
+      "id": "24f676b9-8506-459c-8e10-03a4bdc8f587",
+      "name": "Aviso de fallo IA",
+      "webhookId": "7c9df5c7-5fac-4a97-ae4d-93bc54eea75c",
       "credentials": {
         "telegramApi": {
           "id": "B8CXWjWtC7iP0fJh",
@@ -1832,7 +1896,7 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -1952,24 +2016,6 @@
         [
           {
             "node": "Mensaje con lista de pendientes por guardar",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Mensaje por defecto",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
@@ -2109,6 +2155,31 @@
         [
           {
             "node": "Configuracion guardada!",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Mensaje por defecto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aviso de fallo IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
