@@ -29,15 +29,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1248,
-        -112
+        -1584,
+        40
       ],
-      "id": "0f2f72d6-d259-47e7-9934-c57f5db392aa",
+      "id": "14230f02-5872-45df-ae27-076a05495bb8",
       "name": "Buscar el usuario registrado",
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -70,10 +70,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1024,
-        -112
+        -1360,
+        40
       ],
-      "id": "d816ae8d-a092-4de9-8d0c-b40e8db1a9a6",
+      "id": "0a197097-4888-4071-9b8b-cafa4cc2fc54",
       "name": "IF (Si el usuario existe o no existe)"
     },
     {
@@ -87,15 +87,15 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1696,
-        -16
+        -2032,
+        376
       ],
-      "id": "887d7047-ac13-4395-9aa3-f022bcbdacec",
+      "id": "bd3a5848-e352-4c97-bd6a-9053b889a715",
       "name": "Telegram Trigger",
       "webhookId": "040e60ef-e56b-4357-8547-a0ba2e06bbe5",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -122,14 +122,14 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.1,
       "position": [
-        -128,
-        720
+        -464,
+        1376
       ],
-      "id": "fe028eff-fb23-492a-8420-bf2c7b1b1a32",
+      "id": "8a8ef426-f2d7-4607-9b2f-220740654331",
       "name": "Message a model",
       "credentials": {
         "googlePalmApi": {
-          "id": "PHFta0hVOFbvMZSq",
+          "id": "WagfAg8P7vb12olG",
           "name": "Google Gemini(PaLM) Api account"
         }
       },
@@ -258,14 +258,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        672,
-        912
+        336,
+        1744
       ],
-      "id": "50a9c905-e5c6-490c-ac2b-348c0293e5c6",
+      "id": "e4c67304-cf67-454a-ac19-c647876b51dc",
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -282,15 +282,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        672,
-        -528
+        336,
+        128
       ],
-      "id": "78ff77e5-97a9-42a3-890a-f796b83d0344",
+      "id": "25d41df7-1d8c-4807-b737-537a8563e027",
       "name": "Mensaje de resumen diario",
       "webhookId": "1337c31c-ca07-476d-8905-f848991af9a7",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -307,15 +307,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        896,
-        912
+        560,
+        1744
       ],
-      "id": "fe417c28-3406-4d5f-8062-9fd41b6ba659",
+      "id": "7e99a45f-00df-404e-b604-f56433ebfebb",
       "name": "Mensaje de guardado en pendientes",
       "webhookId": "7ff48a0e-7a59-4e48-a963-77ff4120aff9",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -327,10 +327,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        -528
+        560,
+        128
       ],
-      "id": "53f31d24-7cde-4c83-ac04-dfd0835b339b",
+      "id": "07e43be4-289c-45d7-846b-3137875d2ca9",
       "name": "Code in JavaScript1"
     },
     {
@@ -340,10 +340,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        224,
-        720
+        -112,
+        1552
       ],
-      "id": "ed2983e5-a375-4286-9aed-4cfb7f63bbfa",
+      "id": "9587cd74-865b-4419-b500-e397fe121ee7",
       "name": "Code procesar gemini"
     },
     {
@@ -353,10 +353,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        448,
-        -528
+        112,
+        128
       ],
-      "id": "5d52e808-2dc6-4470-b9ac-2e496fcc47c8",
+      "id": "57110201-3b0d-4e4f-a77a-96a6c5f9cc0b",
       "name": "Code procesar pendientes"
     },
     {
@@ -496,14 +496,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1120,
-        -528
+        784,
+        128
       ],
-      "id": "4e9aab28-fdce-4451-b8ce-58a677509e50",
+      "id": "2730a7c7-9ee5-41d4-87df-a0b6b1ddd33b",
       "name": "Update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -537,10 +537,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        224,
-        -432
+        -112,
+        224
       ],
-      "id": "ef4447f2-7e2f-4114-ba8c-2e3326c4509c",
+      "id": "4a1ed5d1-0c5e-4701-88d6-c70c680f459a",
       "name": "If encuentra registros pendientes"
     },
     {
@@ -554,15 +554,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        448,
-        -336
+        112,
+        320
       ],
-      "id": "7ae171d1-ecd6-4218-9f30-8c5a32e3fdea",
+      "id": "b24af999-d0bf-45b6-8287-7acb001c5892",
       "name": "Mensaje de todo al dia",
       "webhookId": "c8935a06-3497-493b-b776-e8be05876cfe",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -700,10 +700,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -352,
-        176
+        -688,
+        744
       ],
-      "id": "ed6bf45c-778b-4671-b79b-17122b71177e",
+      "id": "d6d08033-00ac-4514-a508-7356e6bbd88f",
       "name": "Switch Autenticado",
       "alwaysOutputData": false
     },
@@ -740,15 +740,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -64,
-        -48
+        -400,
+        608
       ],
-      "id": "9bfd05db-87bf-454f-82f3-4f113503e34a",
+      "id": "c4780ceb-ba44-4fff-9894-686b394b17ca",
       "name": "Buscar registros en estado pendiente",
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -786,15 +786,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -64,
-        -432
+        -400,
+        224
       ],
-      "id": "0b93b146-c9e5-4a1d-804a-5d3899db4b24",
+      "id": "9841408b-b5cc-4e6d-be72-282ac63477a1",
       "name": "Buscar registros en estado pendiente1",
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -828,10 +828,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        224,
-        -48
+        -112,
+        608
       ],
-      "id": "20616cfe-0837-4874-beff-4abb7bdbff55",
+      "id": "b1828ee6-7e5c-472e-a4c4-29d8b16c01d7",
       "name": "If encuentra registros pendientes1"
     },
     {
@@ -845,15 +845,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        448,
-        232
+        112,
+        888
       ],
-      "id": "aa18e5e6-a459-4d50-9fc1-432b328315f3",
+      "id": "535deec3-3cae-46ae-ace0-495a46f1a9b5",
       "name": "Mensaje de todo al dia1",
       "webhookId": "c8935a06-3497-493b-b776-e8be05876cfe",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -865,10 +865,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        448,
-        -144
+        112,
+        512
       ],
-      "id": "f306a04d-7354-459a-b162-ae7e52ca8e26",
+      "id": "fc86077a-fc24-411c-8f1b-8a5ab1ede91d",
       "name": "Procesar registros pendientes"
     },
     {
@@ -883,15 +883,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        672,
-        -144
+        336,
+        512
       ],
-      "id": "c87e8b29-851a-49c4-860e-cbe07add80b3",
+      "id": "570c9843-312a-4630-900c-5e669525e97d",
       "name": "Mensaje con lista de pendientes por guardar",
       "webhookId": "9c715374-9abf-44e9-a13d-35ab59a3f11a",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -907,15 +907,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        672,
-        240
+        336,
+        896
       ],
-      "id": "c7eb1770-39a5-475e-ae5e-17082ec71370",
+      "id": "ae5a3d7b-a1a9-4fd0-8fbd-437c7b3b73fc",
       "name": "Mensaje por defecto",
       "webhookId": "aef3e0ae-1d41-476d-a5bb-bb55abbe6780",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -923,7 +923,36 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=¡Hola! 👋 Bienvenido a tu Asistente Financiero CashewBot.\n\nPara configurarlo en 2 segundos, ve a tu aplicación de Cashew y haz esto:\n1. Ve a ⚙️ <b>Ajustes > Importar y Exportar Datos</b>.\n2. Toca en <b>Exportar Configuración</b>.\n3. Activa <i>Nombres de cuenta</i> y <i>Nombres de categorías</i>.\n4. Toca \"Exportar\", copia el texto que te da y <b>pégalo aquí mismo en el chat</b>. 👇",
+        "text": "=¡Bienvenido! Para empezar a registrar tus gastos, necesitamos configurar tus categorías y cuentas. ¿Cómo prefieres hacerlo?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📁 Importar configuración de Cashew",
+                    "additionalFields": {
+                      "callback_data": "upload_json"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🚀 Usar Plantilla de Prueba",
+                    "additionalFields": {
+                      "callback_data": "use_template"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "HTML"
@@ -932,15 +961,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -352,
-        496
+        -688,
+        -448
       ],
-      "id": "fb96625a-eaf6-42e3-bb68-7822a733ca71",
+      "id": "547c9701-7dc4-457c-9a9b-229dd109866c",
       "name": "Mensaje de bienvenida",
       "webhookId": "4d994506-81a6-4034-ab98-8553bf0c19b8",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1047,14 +1076,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -576,
-        496
+        -912,
+        -448
       ],
-      "id": "a739fc37-b246-4ce7-bb7b-ebe7fb9fbf43",
+      "id": "7e1e5064-bf31-424f-9825-6590fda9145d",
       "name": "Registro inicial de usuario",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -1070,15 +1099,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -576,
-        -432
+        -912,
+        -64
       ],
-      "id": "12297950-024e-465d-97d2-ee216d2d5ade",
+      "id": "2eff0da4-36dd-453d-bf8e-011269f3df34",
       "name": "Ya estas registrado!",
       "webhookId": "5f2da58b-483b-48fd-b4bb-540619889b02",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1144,10 +1173,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -576,
-        -240
+        -912,
+        328
       ],
-      "id": "619051d4-8c05-4296-8cf0-486e41598f37",
+      "id": "c7bbfbf7-3328-4f93-a294-480d4fd6312c",
       "name": "Switch de Estados"
     },
     {
@@ -1187,10 +1216,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -800,
-        -336
+        -1136,
+        232
       ],
-      "id": "cb7e7525-a28b-4ab6-9b0a-09ec2f3869c7",
+      "id": "688e1140-67c6-4b0c-b39b-18661453555c",
       "name": "Filtro usuario existente"
     },
     {
@@ -1204,15 +1233,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -576,
-        688
+        -912,
+        -256
       ],
-      "id": "4c4b88b3-d22c-4e4b-846c-e6750d2d6854",
+      "id": "58b1db01-f22b-4dd3-9e3d-1cd27552db93",
       "name": "Inicio sin start",
       "webhookId": "3018a5e1-3605-4d37-8865-b703b301a93e",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1254,10 +1283,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -800,
-        592
+        -1136,
+        -440
       ],
-      "id": "51ae33da-c81c-42f4-b43d-d0f8465a1866",
+      "id": "b7374e40-b5f3-4b33-9b86-030e8a384ca3",
       "name": "Filtro Nuevo Usuario"
     },
     {
@@ -1267,10 +1296,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -64,
-        144
+        -400,
+        992
       ],
-      "id": "21a5954a-8799-4c7e-8dbd-d7c354aa7551",
+      "id": "57a16f2a-38e7-437a-a0c2-8b0ce93087ee",
       "name": "Code in JavaScript"
     },
     {
@@ -1289,15 +1318,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        224,
-        144
+        -112,
+        1264
       ],
-      "id": "48f7f9b7-aa33-472b-bf70-abab454314dc",
+      "id": "17092815-cdfc-4e1c-b401-e1cbdfda352d",
       "name": "Enviar perfil",
       "webhookId": "9aae7cfd-12aa-40e7-b6bd-c807a637cdca",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1408,21 +1437,21 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -64,
-        336
+        -400,
+        800
       ],
-      "id": "33547c8e-d58e-4830-b576-44442ce86d71",
+      "id": "e83ac5f9-18af-4e8a-a2ac-fef870581f0e",
       "name": "Reiniciar perfil",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
         "text": "=¡Hola! 👋 Bienvenido a tu Asistente Financiero CashewBot.\n\nPara configurarlo en 2 segundos, ve a tu aplicación de Cashew y haz esto:\n1. Ve a ⚙️ <b>Ajustes > Importar y Exportar Datos</b>.\n2. Toca en <b>Exportar Configuración</b>.\n3. Activa <i>Nombres de cuenta</i> y <i>Nombres de categorías</i>.\n4. Toca \"Exportar\", copia el texto que te da y <b>pégalo aquí mismo en el chat</b>. 👇",
         "additionalFields": {
           "appendAttribution": false,
@@ -1432,15 +1461,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        224,
-        336
+        -112,
+        1072
       ],
-      "id": "6cf74428-f3be-418b-bf1f-8c511f5d2cc9",
+      "id": "65c78c1b-c73a-4c70-8e2b-c20dd832e5d6",
       "name": "Perfil reiniciado!",
       "webhookId": "81974b54-1339-44e7-940f-980d9bf22cde",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1505,10 +1534,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -1472,
-        -16
+        -1808,
+        376
       ],
-      "id": "a7ab5bfa-348c-4052-a479-025920f38616",
+      "id": "034e0490-1176-48cc-8a70-6591291f8251",
       "name": "Texto vs botones"
     },
     {
@@ -1518,10 +1547,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -352,
-        -720
+        -688,
+        -64
       ],
-      "id": "df3cc000-46a9-44dc-8f7f-3ceabc86448c",
+      "id": "d5064593-7797-4468-b93c-fe0dc1fd3744",
       "name": "Extraer Datos JSON"
     },
     {
@@ -1552,10 +1581,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -64,
-        -720
+        -400,
+        -64
       ],
-      "id": "1b9e388b-a48c-4341-a81a-b413e12696cc",
+      "id": "6ce36f4d-5250-43a0-b5a3-72e76c698101",
       "name": "If1"
     },
     {
@@ -1567,15 +1596,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        224,
-        -624
+        -112,
+        32
       ],
-      "id": "6cdcb1f6-f933-4dfc-9978-bf38f030bfd3",
+      "id": "eec44c5d-d239-4e79-9aeb-34dc4994b329",
       "name": "Send a text message",
       "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1699,14 +1728,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        224,
-        -816
+        -112,
+        -160
       ],
-      "id": "c78d8df7-6532-4a79-bb92-45c4cbe00a21",
+      "id": "712db077-98b3-470d-8adc-0fe315f6f683",
       "name": "Guardar configuracion",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -1723,15 +1752,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        448,
-        -816
+        112,
+        -160
       ],
-      "id": "4a1acdc1-a73a-42f6-8133-45ded495467f",
+      "id": "d01c3ae6-59c8-498b-85a5-851d6b26e1b2",
       "name": "Configuracion guardada!",
       "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1799,10 +1828,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        448,
-        704
+        112,
+        1536
       ],
-      "id": "c73a6ef6-4d94-4192-8ad8-d210c44d6284",
+      "id": "09af4030-02a2-459f-ac87-0aed78c64697",
       "name": "Switch"
     },
     {
@@ -1817,15 +1846,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        672,
-        720
+        336,
+        1552
       ],
-      "id": "24f676b9-8506-459c-8e10-03a4bdc8f587",
+      "id": "938fb08f-a053-4864-9bce-54cd30e02297",
       "name": "Aviso de fallo IA",
       "webhookId": "7c9df5c7-5fac-4a97-ae4d-93bc54eea75c",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1882,15 +1911,15 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -64,
-        528
+        -400,
+        1184
       ],
-      "id": "c4754e62-07ba-4d7c-9609-995a8daafa97",
+      "id": "e3329036-c98d-4371-9da3-d843d5356f0b",
       "name": "Menú Recordatorio",
       "webhookId": "00dfebad-0012-4728-929b-c4e0f885976a",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -1922,6 +1951,56 @@
               },
               "renameOutput": true,
               "outputKey": "Configurar Recordatorio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "82ce70a4-5b04-4e9a-84c2-749d5f9f0c55",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.callback_query.data }}",
+                    "rightValue": "upload_json",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "upload_json"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ff378c38-0401-434a-82ef-3dd429d0c5b3",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.callback_query.data }}",
+                    "rightValue": "use_template",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "use_template"
             }
           ]
         },
@@ -1930,10 +2009,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -1248,
-        880
+        -1584,
+        1704
       ],
-      "id": "e8ca1fb3-166b-472e-9c49-a29efcc4efbb",
+      "id": "b599676f-85a2-4cd5-927d-fc188dc311cc",
       "name": "Switch de Botones"
     },
     {
@@ -1943,10 +2022,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1024,
-        880
+        -1360,
+        1696
       ],
-      "id": "7df5b800-4fbb-4eaf-919f-03b67b52890c",
+      "id": "ca80600d-4c6a-461c-b39c-d822719081b2",
       "name": "Parsear eleccion del recordatorio"
     },
     {
@@ -2065,14 +2144,14 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -800,
-        880
+        -1136,
+        1696
       ],
-      "id": "6206e39c-fe87-4e74-a048-c113530e11e4",
+      "id": "bb4c4bfc-5e4d-495f-b726-ba960d7160d5",
       "name": "Guardar configuracion de recordatorio",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "1lebRD1WyWtpjq3J",
+          "id": "jccNPB06hktLmAAY",
           "name": "Google Sheets OAuth2 API"
         }
       }
@@ -2089,15 +2168,184 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -576,
-        880
+        -912,
+        1696
       ],
-      "id": "8883e036-f602-4035-af89-86787d136d7b",
+      "id": "6feb7994-3685-4d51-bea1-8a1b134e392e",
       "name": "Confirmacion de guardado de recordatorio",
       "webhookId": "07f2f7eb-8cc2-41d2-988e-f3cc4a610230",
       "credentials": {
         "telegramApi": {
-          "id": "B8CXWjWtC7iP0fJh",
+          "id": "c7yeIFGtexBZCmUd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const cuentas = \"Efectivo, Banco Principal, Zinli\";\nconst arbol = {\n  \"Comida\": [\"Desayuno\", \"Almuerzo\", \"Cena\", \"Snacks\"],\n  \"Transporte\": [\"Uber\", \"Autobús\", \"Taxi\"],\n  \"Servicios\": [\"Internet\", \"Teléfono\", \"Electricidad\"],\n  \"Ocio\": [\"Cine\", \"Videojuegos\", \"Salidas\"],\n  \"Ingresos\": [\"Sueldo\", \"Ventas\", \"Regalos\"]\n};\n\nreturn [{\n  json: {\n    cuentasFinales: cuentas,\n    estructuraFinal: JSON.stringify(arbol)\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1360,
+        1888
+      ],
+      "id": "6f1717f2-5a49-4482-9d85-48cae74a086b",
+      "name": "Construir JSON de la plantilla"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU",
+          "mode": "list",
+          "cachedResultName": "CashewBot DB",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541734962,
+          "mode": "list",
+          "cachedResultName": "Usuarios",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TQknp3hEDdBfK4ttBGMnt6Bi3L7uJ4pJ4UV-UbgQ8cU/edit#gid=1541734962"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Chat ID": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+            "Estado_Registro": "COMPLETADO",
+            "Cuentas": "={{ $('Construir JSON de la plantilla').item.json.cuentasFinales }}",
+            "Estructura_JSON": "={{ $('Construir JSON de la plantilla').item.json.estructuraFinal }}"
+          },
+          "matchingColumns": [
+            "Chat ID"
+          ],
+          "schema": [
+            {
+              "id": "Chat ID",
+              "displayName": "Chat ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cuentas",
+              "displayName": "Cuentas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado_Registro",
+              "displayName": "Estado_Registro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Categoria_Temporal",
+              "displayName": "Categoria_Temporal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Estructura_JSON",
+              "displayName": "Estructura_JSON",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Recordatorio_Diario",
+              "displayName": "Recordatorio_Diario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1136,
+        1888
+      ],
+      "id": "1dc56b02-36ae-4771-b55a-25d14e2e6441",
+      "name": "Guardar configuracion1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jccNPB06hktLmAAY",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "=🎉 <b>¡Perfil Sincronizado al Instante!</b> 🎉\n\nHe leído tu configuración perfectamente. Ya tengo todas tus cuentas y tu árbol de categorías listo.\n\nA partir de este momento, puedes escribirme tus gastos de forma natural. \n<i>Ejemplo: \"Gasté 15 dólares en taxi\" o \"Compré 30 mil pesos de pan\".</i> 🚀",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -912,
+        1888
+      ],
+      "id": "fea2e916-53f6-4d9f-9b2d-7cc9aeaaa280",
+      "name": "Configuracion guardada!1",
+      "webhookId": "16bac891-1b7c-4420-a647-a9f41569a5df",
+      "credentials": {
+        "telegramApi": {
+          "id": "c7yeIFGtexBZCmUd",
           "name": "Telegram account"
         }
       }
@@ -2510,6 +2758,20 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Perfil reiniciado!",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Construir JSON de la plantilla",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -2534,11 +2796,33 @@
           }
         ]
       ]
+    },
+    "Construir JSON de la plantilla": {
+      "main": [
+        [
+          {
+            "node": "Guardar configuracion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar configuracion1": {
+      "main": [
+        [
+          {
+            "node": "Configuracion guardada!1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "2b275672e57a7da5706eb21a48d09cf89321781fd82c00ad00f65ff4579f2609"
+    "instanceId": "d07c10897fdc911beca2dfde28b95452999dea9f1eeeb2c249525dd0f754467e"
   }
 }
